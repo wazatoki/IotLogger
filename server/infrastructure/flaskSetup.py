@@ -6,7 +6,7 @@ from flask_cors import CORS
 from infrastructure import dbSetup
 
 class Config(object):
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///db/test.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///db/ecmoMonitor.sqlite3.db'
     SECRET_KEY = os.environ.get("SECRET_KEY") or "super-secret-key"
     DEBUG = True
     CSRF_ENABLED = True

@@ -1,7 +1,9 @@
 from flask_restful import Resource, Api
 from flask_marshmallow import Marshmallow
-from infrastructure import flaskSetup
 from flask.templating import render_template
+
+from infrastructure import flaskSetup
+
 
 app = flaskSetup.create_app()
 api = Api(app)
