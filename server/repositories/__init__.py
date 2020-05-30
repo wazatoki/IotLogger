@@ -1,6 +1,6 @@
-from repositories import AsynchronousLog, CycleLog
+from repositories import AsynchronousLog, CyclicLog
 
 __all__ = [
     AsynchronousLog,
-    CycleLog,
+    CyclicLog,
 ]

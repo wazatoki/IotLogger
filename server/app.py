@@ -1,13 +1,9 @@
-from flask_restful import Resource, Api
-from flask_marshmallow import Marshmallow
-from flask.templating import render_template
+from flask import render_template
 
 from infrastructure import flaskSetup
-
+import repositories
 
 app = flaskSetup.create_app()
-api = Api(app)
-ma = Marshmallow(app)
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
