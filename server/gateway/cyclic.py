@@ -19,7 +19,7 @@ def find_cyclic_by_event_date():
 
 
 @app.route(flaskSetup.url_prefix + 'cyclic/add', methods=['POST'])
-def add():
+def cyclic_add():
     data = request.json
     log_data = cyclic_data.Log_data()
     log_data.version = data['version']
@@ -35,5 +35,5 @@ def add():
     log_data.svo2 = data['svo2']
     log_data.hct = data['hct']
     cyclic_log.add(log_data)
-    
+
     return jsonify({'result', 'ok'})
