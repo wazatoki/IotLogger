@@ -22,14 +22,21 @@ def find_asynchronous_by_event_date():
 
 @app.route(flaskSetup.url_prefix + 'asynchronous/add', methods=['POST'])
 def asynchronous_add():
-    print(request.json)
     data = request.json
     log_data = asynchronous.Log_data()
-    log_data.version = data['version']
-    log_data.dt = datetime.strptime(data['dt'], '%Y/%m/%d %H:%M:%S')
-    log_data.code = data['code']
-    log_data.category = data['category']
-    log_data.name = data['name']
+
+    for k in data:
+
+        if k == 'version':
+            log_data.version = data[k]
+        elif k == 'dt':
+            log_data.dt = datetime.strptime(data[k], '%Y/%m/%d %H:%M:%S')
+        elif k == 'code':
+            log_data.code = data[k]
+        elif k == 'category':
+            log_data.category = data[k]
+        elif k == 'name':
+            log_data.name = data[k]
 
     asynchronous_log.add(log_data)
     return jsonify({'result': 'ok'})

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import request, jsonify
 
 from infrastructure import flaskSetup
@@ -22,18 +24,34 @@ def find_cyclic_by_event_date():
 def cyclic_add():
     data = request.json
     log_data = cyclic_data.Log_data()
-    log_data.version = data['version']
-    log_data.dt = data['dt']
-    log_data.speed = data['speed']
-    log_data.flow = data['flow']
-    log_data.pven = data['pven']
-    log_data.pint = data['pint']
-    log_data.deltap = data['deltap']
-    log_data.part = data['part']
-    log_data.tven = data['tven']
-    log_data.tart = data['tart']
-    log_data.svo2 = data['svo2']
-    log_data.hct = data['hct']
+
+    for k in data:
+
+        if k == 'version':
+            log_data.version = data[k]
+        elif k == 'dt':
+            log_data.dt = datetime.strptime(data[k], '%Y/%m/%d %H:%M:%S')
+        elif k == 'speed':
+            log_data.speed = data[k]
+        elif k == 'flow':
+            log_data.flow = data[k]
+        elif k == 'pven':
+            log_data.pven = data[k]
+        elif k == 'pint':
+            log_data.pint = data[k]
+        elif k == 'deltap':
+            log_data.deltap = data[k]
+        elif k == 'part':
+            log_data.part = data[k]
+        elif k == 'tven':
+            log_data.tven = data[k]
+        elif k == 'tart':
+            log_data.tart = data[k]
+        elif k == 'svo2':
+            log_data.svo2 = data[k]
+        elif k == 'hct':
+            log_data.hct = data[k]
+
     cyclic_log.add(log_data)
 
-    return jsonify({'result', 'ok'})
+    return jsonify({'result': 'ok'})
