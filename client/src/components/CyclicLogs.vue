@@ -39,7 +39,9 @@
             <p>speed</p>
             <p>{{ speed }}</p>
           </el-col>
-          <el-col :span="21"></el-col>
+          <el-col :span="21">
+            <general-chart :chartData="speedData" :options="chartOption" :height="chartHeight"></general-chart>
+          </el-col>
         </el-row>
 
         <el-row>
@@ -47,7 +49,9 @@
             <p>flow</p>
             <p>{{ flow }}</p>
           </el-col>
-          <el-col :span="21"></el-col>
+          <el-col :span="21">
+            <general-chart :chartData="flowData" :options="chartOption" :height="chartHeight"></general-chart>
+          </el-col>
         </el-row>
 
         <el-row>
@@ -55,7 +59,9 @@
             <p>pven</p>
             <p>{{ pven }}</p>
           </el-col>
-          <el-col :span="21"></el-col>
+          <el-col :span="21">
+            <general-chart :chartData="pvenData" :options="chartOption" :height="chartHeight"></general-chart>
+          </el-col>
         </el-row>
 
         <el-row>
@@ -63,7 +69,9 @@
             <p>pint</p>
             <p>{{ pint }}</p>
           </el-col>
-          <el-col :span="21"></el-col>
+          <el-col :span="21">
+            <general-chart :chartData="pintData" :options="chartOption" :height="chartHeight"></general-chart>
+          </el-col>
         </el-row>
 
         <el-row>
@@ -71,7 +79,9 @@
             <p>⊿p</p>
             <p>{{ deltap }}</p>
           </el-col>
-          <el-col :span="21"></el-col>
+          <el-col :span="21">
+            <general-chart :chartData="deltapData" :options="chartOption" :height="chartHeight"></general-chart>
+          </el-col>
         </el-row>
 
         <el-row>
@@ -79,7 +89,9 @@
             <p>part</p>
             <p>{{ part }}</p>
           </el-col>
-          <el-col :span="21"></el-col>
+          <el-col :span="21">
+            <general-chart :chartData="partData" :options="chartOption" :height="chartHeight"></general-chart>
+          </el-col>
         </el-row>
 
         <el-row>
@@ -87,7 +99,9 @@
             <p>tven</p>
             <p>{{ tven }}</p>
           </el-col>
-          <el-col :span="21"></el-col>
+          <el-col :span="21">
+            <general-chart :chartData="tvenData" :options="chartOption" :height="chartHeight"></general-chart>
+          </el-col>
         </el-row>
 
         <el-row>
@@ -95,7 +109,9 @@
             <p>tart</p>
             <p>{{ tart }}</p>
           </el-col>
-          <el-col :span="21"></el-col>
+          <el-col :span="21">
+            <general-chart :chartData="tartData" :options="chartOption" :height="chartHeight"></general-chart>
+          </el-col>
         </el-row>
 
         <el-row>
@@ -103,7 +119,9 @@
             <p>svo2</p>
             <p>{{ svo2 }}</p>
           </el-col>
-          <el-col :span="21"></el-col>
+          <el-col :span="21">
+            <general-chart :chartData="svo2Data" :options="chartOption" :height="chartHeight"></general-chart>
+          </el-col>
         </el-row>
 
         <el-row>
@@ -111,7 +129,9 @@
             <p>hct</p>
             <p>{{ hct }}</p>
           </el-col>
-          <el-col :span="21"></el-col>
+          <el-col :span="21">
+            <general-chart :chartData="hctData" :options="chartOption" :height="chartHeight"></general-chart>
+          </el-col>
         </el-row>
       </el-col>
     </el-row>
@@ -119,8 +139,12 @@
 </template>
 
 <script>
+import GeneralChart from "./charts/GeneralChart";
 export default {
   name: "CyclicLogs",
+  components: {
+    GeneralChart
+  },
   data() {
     return {
       speed: 0,
@@ -142,7 +166,32 @@ export default {
       isTven: true,
       isTart: true,
       isSvo2: true,
-      isHct: true
+      isHct: true,
+      chartOption: {
+        legend: {
+          display: false
+        },
+        animation: false
+      },
+      chartHeight: 35,
+      speedData: {
+        datasets: [
+          {
+            label: "",
+            backgroundColor: "#f87979",
+            data: [20, 30, 25]
+          }
+        ]
+      },
+      flowData: {
+        datasets: [
+          {
+            label: "",
+            backgroundColor: "#557979",
+            data: [20, 30, 25]
+          }
+        ]
+      }
     };
   }
 };
@@ -153,5 +202,9 @@ div.select-chart {
   width: 5em;
   float: left;
   text-align: left;
+}
+
+div.chart-area {
+  max-height: 100px;
 }
 </style>

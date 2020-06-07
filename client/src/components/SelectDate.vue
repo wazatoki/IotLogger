@@ -11,10 +11,18 @@ export default {
   name: "SelectDate",
   data() {
     return {
-      fromDate: 0,
-      toDate: ''
+      fromDate: this.getDefaultFromDate(),
+      toDate: new Date()
     };
   },
+  methods:{
+      getDefaultFromDate(){
+let d;
+          d = new Date();
+          d.setDate(d.getDate() - 2);
+          return d;
+      },
+  }
 };
 </script>
 
