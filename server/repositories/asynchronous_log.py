@@ -33,6 +33,7 @@ def map_to_object(a: tp.Type[AsynchronousLog]):
     data.code = a.event_code
     data.category = a.event_category
     data.name = a.event_name
+    return data
 
 def add(a: tp.Type[asynchronous.Log_data]):
     log = map_to_entity(a)

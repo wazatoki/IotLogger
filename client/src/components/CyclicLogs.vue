@@ -34,7 +34,7 @@
         </div>
       </el-col>
       <el-col :span="22">
-        <el-row>
+        <el-row v-if="isSpeed">
           <el-col :span="3">
             <p>speed</p>
             <p>{{ speed }}</p>
@@ -44,7 +44,7 @@
           </el-col>
         </el-row>
 
-        <el-row>
+        <el-row v-if="isFlow">
           <el-col :span="3">
             <p>flow</p>
             <p>{{ flow }}</p>
@@ -54,7 +54,7 @@
           </el-col>
         </el-row>
 
-        <el-row>
+        <el-row v-if="isPven">
           <el-col :span="3">
             <p>pven</p>
             <p>{{ pven }}</p>
@@ -64,7 +64,7 @@
           </el-col>
         </el-row>
 
-        <el-row>
+        <el-row v-if="isPint">
           <el-col :span="3">
             <p>pint</p>
             <p>{{ pint }}</p>
@@ -74,7 +74,7 @@
           </el-col>
         </el-row>
 
-        <el-row>
+        <el-row v-if="isDeltap">
           <el-col :span="3">
             <p>⊿p</p>
             <p>{{ deltap }}</p>
@@ -84,7 +84,7 @@
           </el-col>
         </el-row>
 
-        <el-row>
+        <el-row v-if="isPart">
           <el-col :span="3">
             <p>part</p>
             <p>{{ part }}</p>
@@ -94,7 +94,7 @@
           </el-col>
         </el-row>
 
-        <el-row>
+        <el-row v-if="isTven">
           <el-col :span="3">
             <p>tven</p>
             <p>{{ tven }}</p>
@@ -104,7 +104,7 @@
           </el-col>
         </el-row>
 
-        <el-row>
+        <el-row v-if="isTart">
           <el-col :span="3">
             <p>tart</p>
             <p>{{ tart }}</p>
@@ -114,7 +114,7 @@
           </el-col>
         </el-row>
 
-        <el-row>
+        <el-row v-if="isSvo2">
           <el-col :span="3">
             <p>svo2</p>
             <p>{{ svo2 }}</p>
@@ -124,7 +124,7 @@
           </el-col>
         </el-row>
 
-        <el-row>
+        <el-row v-if="isHct">
           <el-col :span="3">
             <p>hct</p>
             <p>{{ hct }}</p>

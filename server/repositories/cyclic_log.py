@@ -54,6 +54,7 @@ def map_to_object(c: tp.Type[CyclicLog]):
     data.tart = c.tart
     data.svo2 = c.svo2
     data.hct = c.hct
+    return data
 
 def add(c: tp.Type[cyclic_data.Log_data]):
     log = CyclicLog()
