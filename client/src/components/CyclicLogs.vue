@@ -145,6 +145,124 @@ export default {
   components: {
     GeneralChart
   },
+  props: {
+    cyclickData: Array
+  },
+  computed: {
+    speedData: function() {
+      let result = this.createChartDataObj();
+      for (let i = 0; i < this.cyclickData.length; i++) {
+        result.datasets[0].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["speed"]
+        });
+      }
+      return result;
+    },
+    flowData: function() {
+      let result = this.createChartDataObj();
+      for (let i = 0; i < this.cyclickData.length; i++) {
+        result.datasets[0].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["flow"]
+        });
+      }
+      return result;
+    },
+    pvenData: function() {
+      let result = this.createChartDataObj();
+      for (let i = 0; i < this.cyclickData.length; i++) {
+        result.datasets[0].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["pven"]
+        });
+      }
+      return result;
+    },
+    pintData: function() {
+      let result = this.createChartDataObj();
+      for (let i = 0; i < this.cyclickData.length; i++) {
+        result.datasets[0].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["speed"]
+        });
+      }
+      return result;
+    },
+    deltapData: function() {
+      let result = this.createChartDataObj();
+      for (let i = 0; i < this.cyclickData.length; i++) {
+        result.datasets[0].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["speed"]
+        });
+      }
+      return result;
+    },
+    partData: function() {
+      let result = this.createChartDataObj();
+      for (let i = 0; i < this.cyclickData.length; i++) {
+        result.datasets[0].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["speed"]
+        });
+      }
+      return result;
+    },
+    tvenData: function() {
+      let result = this.createChartDataObj();
+      for (let i = 0; i < this.cyclickData.length; i++) {
+        result.datasets[0].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["speed"]
+        });
+      }
+      return result;
+    },
+    tartData: function() {
+      let result = this.createChartDataObj();
+      for (let i = 0; i < this.cyclickData.length; i++) {
+        result.datasets[0].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["speed"]
+        });
+      }
+      return result;
+    },
+    svo2Data: function() {
+      let result = this.createChartDataObj();
+      for (let i = 0; i < this.cyclickData.length; i++) {
+        result.datasets[0].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["speed"]
+        });
+      }
+      return result;
+    },
+    hctData: function() {
+      let result = this.createChartDataObj();
+      for (let i = 0; i < this.cyclickData.length; i++) {
+        result.datasets[0].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["speed"]
+        });
+      }
+      return result;
+    }
+  },
+  methods: {
+    createChartDataObj() {
+      return {
+        datasets: [
+          {
+            label: "",
+            backgroundColor: "#557979",
+            data: []
+          }
+        ]
+      };
+    }
+  },
   data() {
     return {
       speed: 0,
@@ -171,27 +289,24 @@ export default {
         legend: {
           display: false
         },
+        scales: {
+          xAxes: [
+            {
+              type: "time",
+              time: {
+                unit: "hour",
+                unitStepSize: 2,
+                displayFormats: {
+                  hour: "h:mm"
+                },
+                tooltipFormat: "MM/DD h:mm:ss"
+              }
+            }
+          ]
+        },
         animation: false
       },
-      chartHeight: 35,
-      speedData: {
-        datasets: [
-          {
-            label: "",
-            backgroundColor: "#f87979",
-            data: [20, 30, 25]
-          }
-        ]
-      },
-      flowData: {
-        datasets: [
-          {
-            label: "",
-            backgroundColor: "#557979",
-            data: [20, 30, 25]
-          }
-        ]
-      }
+      chartHeight: 35
     };
   }
 };
@@ -202,9 +317,5 @@ div.select-chart {
   width: 5em;
   float: left;
   text-align: left;
-}
-
-div.chart-area {
-  max-height: 100px;
 }
 </style>

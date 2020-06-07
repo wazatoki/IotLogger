@@ -9,15 +9,15 @@
 
 <script>
 export default {
-    name: 'AlertLogs',
-    props: {
-        alertData: Array,
-    },
-}
+  name: "AlertLogs",
+  props: {
+    alertData: Array
+  }
+};
 </script>
 
 <style scoped>
-  .alert-logs >>> .alert-item {
-    color: red;
-  }
+.alert-logs >>> .alert-item {
+  color: red;
+}
 </style>

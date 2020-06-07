@@ -7,7 +7,7 @@
     </el-row>
     <el-row>
       <el-col :span="18">
-        <cyclic-logs></cyclic-logs>
+        <cyclic-logs v-bind:cyclickData="cyclickData"></cyclic-logs>
       </el-col>
       <el-col :span="6">
         <alert-logs v-bind:alertData="alertData"></alert-logs>
@@ -29,7 +29,8 @@ export default {
   },
   data() {
     return {
-      alertData: [{ date: "2020/12/12 12:12:12", name: "aaaaaaaaaaaa" }]
+      alertData: [{ date: "2020/12/12 12:12:12", name: "aaaaaaaaaaaa" }],
+      cyclickData: [{ datetime:"2020/12/12 12:12:12", speed: 10, flow: 100, pven: 1000 },{ datetime:"2020/12/12 12:12:13", speed: 0, flow: 300, pven: 3000 },{ datetime:"2020/12/12 12:12:14", speed: 20, flow: 200, pven: 2000 }, { datetime:"2020/12/12 12:12:15", speed: 50, flow: 200, pven: 2000 }]
     };
   }
 };
