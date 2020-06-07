@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 from flask import request, jsonify
 
@@ -12,6 +12,8 @@ app = flaskSetup.app
 def find_cyclic_by_event_date():
     f = request.args.get('from', default='1900/1/1')
     t = request.args.get('to', default='2050/12/31')
+    t = t + datetime.timedelta(days = 1)
+    t = t- datetime.timedelta(microseconds = 1)
     items = cyclic_log.find_by_event_date(f, t)
     result_items = []
     for item in items:
@@ -30,7 +32,7 @@ def cyclic_add():
         if k == 'version':
             log_data.version = data[k]
         elif k == 'dt':
-            log_data.dt = datetime.strptime(data[k], '%Y/%m/%d %H:%M:%S')
+            log_data.dt = datetime.datetime.strptime(data[k], '%Y/%m/%d %H:%M:%S')
         elif k == 'speed':
             log_data.speed = data[k]
         elif k == 'flow':

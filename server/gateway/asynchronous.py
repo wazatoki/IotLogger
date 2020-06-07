@@ -13,6 +13,8 @@ app = flaskSetup.app
 def find_asynchronous_by_event_date():
     f = request.args.get('from', default='1900/1/1')
     t = request.args.get('to', default='2050/12/31')
+    t = t + datetime.timedelta(days = 1)
+    t = t- datetime.timedelta(microseconds = 1)
     items = asynchronous_log.find_by_event_date(f, t)
     result_items = []
     for item in items:
