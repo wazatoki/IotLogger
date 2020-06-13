@@ -26,14 +26,24 @@ export default {
       return d;
     },
     getData() {
-      axios.get('api/find_cyclic_by_event_date',{
+      axios.get('api/find_parsed_by_event_date',{
         params: {
           from: this.fromDate,
           to: this.toDate
         }
       }).then( (res) => {
-        console.log(res.data.length)
+        this.$emit('parsed-data-fetched', res.data)
       });
+      axios.get('api/find_asynchronous_by_event_date',{
+        params: {
+          from: this.fromDate,
+          to: this.toDate
+        }
+      }).then( (res) => {
+        this.$emit('asynchronous-data-fetched', res.data)
+      });
+
+
     }
   }
 };

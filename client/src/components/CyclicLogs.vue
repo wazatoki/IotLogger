@@ -154,7 +154,11 @@ export default {
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["speed"]
+          y: this.cyclickData[i]["speedMax"]
+        });
+        result.datasets[1].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["speedMin"]
         });
       }
       return result;
@@ -164,7 +168,11 @@ export default {
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["flow"]
+          y: this.cyclickData[i]["flowMax"]
+        });
+        result.datasets[1].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["flowMin"]
         });
       }
       return result;
@@ -174,7 +182,11 @@ export default {
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["pven"]
+          y: this.cyclickData[i]["pvenMax"]
+        });
+        result.datasets[1].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["pvenMin"]
         });
       }
       return result;
@@ -184,7 +196,11 @@ export default {
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["speed"]
+          y: this.cyclickData[i]["pintMax"]
+        });
+        result.datasets[1].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["pintMin"]
         });
       }
       return result;
@@ -194,7 +210,11 @@ export default {
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["speed"]
+          y: this.cyclickData[i]["deltapMax"]
+        });
+        result.datasets[1].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["deltapMix"]
         });
       }
       return result;
@@ -204,7 +224,11 @@ export default {
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["speed"]
+          y: this.cyclickData[i]["partMax"]
+        });
+        result.datasets[1].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["partMin"]
         });
       }
       return result;
@@ -214,7 +238,11 @@ export default {
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["speed"]
+          y: this.cyclickData[i]["tvenMax"]
+        });
+        result.datasets[1].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["tvenMin"]
         });
       }
       return result;
@@ -224,7 +252,11 @@ export default {
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["speed"]
+          y: this.cyclickData[i]["tartMax"]
+        });
+        result.datasets[1].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["tartMin"]
         });
       }
       return result;
@@ -234,7 +266,11 @@ export default {
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["speed"]
+          y: this.cyclickData[i]["svo2Max"]
+        });
+        result.datasets[1].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["svo2Min"]
         });
       }
       return result;
@@ -244,7 +280,11 @@ export default {
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["speed"]
+          y: this.cyclickData[i]["hctMax"]
+        });
+        result.datasets[1].data.push({
+          x: this.cyclickData[i]["datetime"],
+          y: this.cyclickData[i]["hctMin"]
         });
       }
       return result;
@@ -256,9 +296,22 @@ export default {
         datasets: [
           {
             label: "",
-            backgroundColor: "#557979",
+            borderColor: "#550000",
+            fill: false,
+            radius: 0,
+            borderJoinStyle: 'round',
+            borderWidth: 1,
             data: []
-          }
+          },
+          {
+            label: "",
+            borderColor: "#000055",
+            fill: false,
+            radius: 0,
+            borderJoinStyle: 'round',
+            borderWidth: 1,
+            data: []
+          },
         ]
       };
     }
@@ -306,7 +359,7 @@ export default {
         },
         animation: false
       },
-      chartHeight: 35
+      chartHeight: 80
     };
   }
 };

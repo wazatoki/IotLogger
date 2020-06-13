@@ -2,7 +2,10 @@
   <div class="base-wrapper">
     <el-row>
       <el-col :span="24">
-        <select-date></select-date>
+        <select-date
+          v-on:parsed-data-fetched="setCyclicData"
+          v-on:asynchronous-data-fetched="setAlertData"
+        ></select-date>
       </el-col>
     </el-row>
     <el-row>
@@ -30,8 +33,16 @@ export default {
   data() {
     return {
       alertData: [{ date: "2020/12/12 12:12:12", name: "aaaaaaaaaaaa" }],
-      cyclickData: [{ datetime:"2020/12/12 12:12:12", speed: 10, flow: 100, pven: 1000 },{ datetime:"2020/12/12 12:12:13", speed: 0, flow: 300, pven: 3000 },{ datetime:"2020/12/12 12:12:14", speed: 20, flow: 200, pven: 2000 }, { datetime:"2020/12/12 12:12:15", speed: 50, flow: 200, pven: 2000 }]
+      cyclickData: []
     };
+  },
+  methods: {
+    setCyclicData(data) {
+      this.cyclickData = data;
+    },
+    setAlertData(data) {
+      this.alertData = data;
+    }
   }
 };
 </script>
