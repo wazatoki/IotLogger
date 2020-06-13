@@ -16,6 +16,7 @@ def find_cyclic_by_event_date():
     t = dateutil.parser.parse(request.args.get('to', default='2050/12/31'))
     t = t + datetime.timedelta(days = 1)
     t = t - datetime.timedelta(microseconds = 1)
+
     items = cyclic_log.find_by_event_date(f, t)
     result_items = []
     for item in items:

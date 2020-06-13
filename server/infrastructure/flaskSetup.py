@@ -6,13 +6,13 @@ from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-
 url_prefix = "/api/"
 
 class Config(object):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///../db/ecmoMonitor.sqlite'
     SECRET_KEY = os.environ.get("SECRET_KEY") or "super-secret-key"
-    DEBUG = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    DEBUG = False
     CSRF_ENABLED = True
     JSON_AS_ASCII = False
 

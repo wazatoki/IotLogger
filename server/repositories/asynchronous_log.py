@@ -40,7 +40,6 @@ def add(a: tp.Type[asynchronous.Log_data]):
     
     db.session.add(log)
     db.session.commit()
-    db.session.close()
 
 def find_all():
     objects = []

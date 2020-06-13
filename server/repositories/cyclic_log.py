@@ -14,6 +14,7 @@ class CyclicLog(db.Model):
     id = db.Column(db.String, primary_key=True, default=util.createUUID)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
+    is_parsed = db.Column(db.Boolean, nullable=False, default=False)
     event_date = db.Column(db.DateTime, nullable=False, default=datetime.now)
     speed = db.Column(db.Integer, nullable=False, default=-32000)
     flow = db.Column(db.REAL, nullable=False, default=-32000)
@@ -25,6 +26,7 @@ class CyclicLog(db.Model):
     tart = db.Column(db.REAL, nullable=False, default=-32000)
     svo2 = db.Column(db.REAL, nullable=False, default=-32000)
     hct = db.Column(db.REAL, nullable=False, default=-32000)
+
 
 def map_to_entity(c: tp.Type[cyclic_data.Log_data]):
     log = CyclicLog()
@@ -72,7 +74,25 @@ def add(c: tp.Type[cyclic_data.Log_data]):
 
     db.session.add(log)
     db.session.commit()
-    db.session.close()
+
+def mark_parsed_logs(f, t):
+    items = CyclicLog.query.filter(and_(CyclicLog.event_date >= f, CyclicLog.event_date <= t, CyclicLog.is_parsed == False )).all()
+    
+    for item in items:
+        item.is_parsed = True
+        db.session.commit()
+
+def find_first_not_Parsed():
+    items = CyclicLog.query.filter(CyclicLog.is_parsed == False)\
+        .order_by(CyclicLog.event_date)\
+        .limit(1)\
+        .all()
+
+    if len(items) == 0 :
+        return None
+    else:
+        o = map_to_object(items[0])
+        return o
 
 def find_all():
     objects = []
