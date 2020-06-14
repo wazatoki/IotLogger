@@ -8,14 +8,17 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 
 export default {
   name: "SelectDate",
   data() {
     return {
       fromDate: this.getDefaultFromDate(),
-      toDate: new Date()
+      toDate: new Date(),
+      parsedDataIntervalID: undefined,
+      alertLogIntervalID: undefined,
+      currentStateIntervalID: undefined
     };
   },
   methods: {
@@ -26,27 +29,59 @@ export default {
       return d;
     },
     getData() {
-      axios.get('api/find_parsed_by_event_date',{
-        params: {
-          from: this.fromDate,
-          to: this.toDate
-        }
-      }).then( (res) => {
-        this.$emit('parsed-data-fetched', res.data)
+      this.fetchParcedData();
+      this.fetchAsynchronousData();
+      this.fetchCurrentState();
+      let d, self;
+      d = new Date();
+      self = this;
+      if (// 最終日付が本日と同じ時だけデータの再取得を行う
+        this.toDate.getFullYear() === d.getFullYear() &&
+        this.toDate.getMonth() === d.getMonth() &&
+        this.toDate.getDate() === d.getDate()
+      ) {
+        this.parsedDataIntervalID = setInterval(function() {
+          self.fetchParcedData();
+        }, 60000);
+        this.alertLogIntervalID = setInterval(function() {
+          self.fetchAsynchronousData();
+        }, 5000);
+        this.currentStateIntervalID = setInterval(function() {
+          self.fetchCurrentState();
+        }, 5000);
+      } else {// データの再取得の停止。現在のステータスはクリアしない。
+        clearInterval(this.parsedDataIntervalID);
+        clearInterval(this.alertLogIntervalID);
+      }
+    },
+    fetchParcedData() {
+      axios
+        .get("api/find_parsed_by_event_date", {
+          params: {
+            from: this.fromDate,
+            to: this.toDate
+          }
+        })
+        .then(res => {
+          this.$emit("parsed-data-fetched", res.data);
+        });
+    },
+    fetchAsynchronousData() {
+      axios
+        .get("api/find_asynchronous_by_event_date", {
+          params: {
+            from: this.fromDate,
+            to: this.toDate
+          }
+        })
+        .then(res => {
+          this.$emit("asynchronous-data-fetched", res.data);
+        });
+    },
+    fetchCurrentState() {
+      axios.get("api/find_cyclic_current_state").then(res => {
+        this.$emit("current-state-fetched", res.data);
       });
-      axios.get('api/find_asynchronous_by_event_date',{
-        params: {
-          from: this.fromDate,
-          to: this.toDate
-        }
-      }).then( (res) => {
-        this.$emit('asynchronous-data-fetched', res.data)
-      });
-      axios.get('api/find_cyclic_current_state').then( (res) => {
-        this.$emit('current-state-fetched', res.data)
-      });
-
-
     }
   }
 };
