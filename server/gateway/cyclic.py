@@ -1,5 +1,5 @@
 import datetime
-import dateutil.parser
+from pytz import timezone
 import random
 
 from flask import request, jsonify
@@ -7,21 +7,34 @@ from flask import request, jsonify
 from infrastructure import flaskSetup
 from repositories import cyclic_log
 from domain import cyclic_data
+from util import util
 
 app = flaskSetup.app
 
+@app.route(flaskSetup.url_prefix + 'find_cyclic_current_state', methods=['GET'])
+def find_cyclic_current_state():
+    t = datetime.datetime.now(timezone('UTC'))
+    f = t - datetime.timedelta(minutes = 5)
+
+    item = cyclic_log.find_current_state(f, t)
+
+    if item != None:
+        item.dt = timezone('UTC').localize(item.dt)
+        return jsonify(item.get_Data())
+
+    return jsonify(None)
+
+
+
 @app.route(flaskSetup.url_prefix + 'find_cyclic_by_event_date', methods=['GET'])
 def find_cyclic_by_event_date():
-    f = dateutil.parser.parse(request.args.get('from', default='1900/1/1'))
-    t = dateutil.parser.parse(request.args.get('to', default='2050/12/31'))
-    t = t + datetime.timedelta(days = 1)
-    t = t - datetime.timedelta(microseconds = 1)
-
+    f = util.get_requested_from_datetime()
+    t = util.get_requested_to_datetime()
     items = cyclic_log.find_by_event_date(f, t)
     result_items = []
     for item in items:
+        item.dt = timezone('UTC').localize(item.dt)
         result_items.append(item.get_Data())
-
     return jsonify(result_items)
 
 
@@ -35,7 +48,7 @@ def cyclic_add():
         if k == 'version':
             log_data.version = data[k]
         elif k == 'dt':
-            log_data.dt = datetime.datetime.strptime(data[k], '%Y/%m/%d %H:%M:%S')
+            log_data.dt = util.str_to_datetime_UTC(data[k])
         elif k == 'speed':
             log_data.speed = data[k]
         elif k == 'flow':
@@ -69,7 +82,8 @@ def cyclic_test_data_add():
 
     max = 100
     min = -100
-    base_date = datetime.datetime.strptime('2020/1/1 0:0:0', '%Y/%m/%d %H:%M:%S')
+    UTC = timezone('UTC')
+    base_date = datetime.datetime.strptime('2020/1/1 0:0:0', '%Y/%m/%d %H:%M:%S').astimezone(UTC)
     log_data.version = 1
     log_data.dt = base_date
     log_data.speed = 0

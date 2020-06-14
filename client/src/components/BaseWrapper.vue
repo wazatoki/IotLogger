@@ -5,12 +5,13 @@
         <select-date
           v-on:parsed-data-fetched="setCyclicData"
           v-on:asynchronous-data-fetched="setAlertData"
+          v-on:current-state-fetched="setCurrentState"
         ></select-date>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="18">
-        <cyclic-logs v-bind:cyclickData="cyclickData"></cyclic-logs>
+        <cyclic-logs v-bind:cyclickData="cyclickData" v-bind:currentState="currentState"></cyclic-logs>
       </el-col>
       <el-col :span="6">
         <alert-logs v-bind:alertData="alertData"></alert-logs>
@@ -32,8 +33,9 @@ export default {
   },
   data() {
     return {
-      alertData: [{ date: "2020/12/12 12:12:12", name: "aaaaaaaaaaaa" }],
-      cyclickData: []
+      alertData: [],
+      cyclickData: [],
+      currentState: {}
     };
   },
   methods: {
@@ -42,6 +44,12 @@ export default {
     },
     setAlertData(data) {
       this.alertData = data;
+    },
+    setCurrentState(data) {
+      if (data == null) {
+        data = {};
+      }
+      this.currentState = data;
     }
   }
 };

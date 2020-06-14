@@ -42,6 +42,9 @@ export default {
       }).then( (res) => {
         this.$emit('asynchronous-data-fetched', res.data)
       });
+      axios.get('api/find_cyclic_current_state').then( (res) => {
+        this.$emit('current-state-fetched', res.data)
+      });
 
 
     }

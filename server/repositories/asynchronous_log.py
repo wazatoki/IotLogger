@@ -1,7 +1,7 @@
 from datetime import datetime
 import typing as tp
 
-from sqlalchemy import and_
+from sqlalchemy import and_, desc
 
 from infrastructure.flaskSetup import db
 from util import util
@@ -53,7 +53,9 @@ def find_all():
 
 def find_by_event_date(f, t):
     objects = []
-    items = AsynchronousLog.query.filter(and_(AsynchronousLog.event_date >= f, AsynchronousLog.event_date <= t )).all()
+    items = AsynchronousLog.query.filter(and_(AsynchronousLog.event_date >= f, AsynchronousLog.event_date <= t ))\
+        .order_by(desc(AsynchronousLog.event_date))\
+        .all()
 
     for item in items:
         o = map_to_object(item)

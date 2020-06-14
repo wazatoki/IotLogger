@@ -1,7 +1,7 @@
 from datetime import datetime
 import typing as tp
 
-from sqlalchemy import and_
+from sqlalchemy import and_, desc
 
 from infrastructure.flaskSetup import db
 from util import util
@@ -74,6 +74,18 @@ def add(c: tp.Type[cyclic_data.Log_data]):
 
     db.session.add(log)
     db.session.commit()
+
+def find_current_state(f, t):
+    items = CyclicLog.query.filter(and_(CyclicLog.event_date >= f, CyclicLog.event_date <= t ))\
+        .order_by(desc(CyclicLog.event_date))\
+        .limit(1)\
+        .all()
+
+    if len(items) == 0 :
+        return None
+    else:
+        o = map_to_object(items[0])
+        return o
 
 def mark_parsed_logs(f, t):
     items = CyclicLog.query.filter(and_(CyclicLog.event_date >= f, CyclicLog.event_date <= t, CyclicLog.is_parsed == False )).all()
