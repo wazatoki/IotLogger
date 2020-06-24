@@ -18,6 +18,7 @@ class AsynchronousLog(db.Model):
     event_code = db.Column(db.String, nullable=False, default='0000')
     event_category = db.Column(db.String, nullable=False, default='0000')
     event_name = db.Column(db.String, nullable=False, default='0000')
+    device_id = db.Column(db.String, nullable=False, default='0000')
 
 def map_to_entity(a: tp.Type[asynchronous.Log_data]):
     log = AsynchronousLog()
@@ -25,6 +26,7 @@ def map_to_entity(a: tp.Type[asynchronous.Log_data]):
     log.event_code = a.code
     log.event_category = a.category
     log.event_name = a.name
+    log.device_id = a.device_id
     return log
 
 def map_to_object(a: tp.Type[AsynchronousLog]):
@@ -33,6 +35,7 @@ def map_to_object(a: tp.Type[AsynchronousLog]):
     data.code = a.event_code
     data.category = a.event_category
     data.name = a.event_name
+    data.device_id = a.device_id
     return data
 
 def add(a: tp.Type[asynchronous.Log_data]):
@@ -51,9 +54,9 @@ def find_all():
     
     return objects
 
-def find_by_event_date(f, t):
+def find_by_event_date(f, t, device_id):
     objects = []
-    items = AsynchronousLog.query.filter(and_(AsynchronousLog.event_date >= f, AsynchronousLog.event_date <= t ))\
+    items = AsynchronousLog.query.filter(and_(AsynchronousLog.event_date >= f, AsynchronousLog.event_date <= t, AsynchronousLog.device_id == device_id ))\
         .order_by(desc(AsynchronousLog.event_date))\
         .all()
 

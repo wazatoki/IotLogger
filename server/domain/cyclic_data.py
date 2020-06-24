@@ -13,6 +13,7 @@ class Log_data:
     tart = -32000
     svo2 = -32000
     hct = -32000
+    device_id = '0000'
     
     def get_Data(self):
 
@@ -29,4 +30,5 @@ class Log_data:
             "tart": self.tart,
             "svo2": self.svo2,
             "hct": self.hct,
+            "deviceID": self.device_id,
         }

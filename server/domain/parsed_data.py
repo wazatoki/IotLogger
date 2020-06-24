@@ -22,6 +22,7 @@ class Log_data:
     svo2_min = -32000
     hct_max = -32000
     hct_min = -32000
+    device_id = '0000'
     
     def get_Data(self):
 
@@ -47,4 +48,5 @@ class Log_data:
             "svo2Min": self.svo2_min,
             "hctMax": self.hct_max,
             "hctMin": self.hct_min,
+            "deviceID": self.device_id,
         }

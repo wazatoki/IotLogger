@@ -3,9 +3,10 @@ from datetime import datetime
 class Log_data:
     version = 0
     dt = datetime.strptime('1900/1/1 0:0:0', '%Y/%m/%d %H:%M:%S')
-    code = ""
-    category = ""
-    name = ""
+    code = ''
+    category = ''
+    name = ''
+    device_id = '0000'
 
     def get_Data(self):
 
@@ -15,6 +16,7 @@ class Log_data:
             "code": self.code,
             "category": self.category,
             "name": self.name,
+            "deviceID": self.device_id,
         }
 
 index = [

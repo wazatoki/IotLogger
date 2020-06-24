@@ -35,6 +35,7 @@ class ParcedLog(db.Model):
     svo2_min = db.Column(db.REAL, nullable=False, default=-32000)
     hct_max = db.Column(db.REAL, nullable=False, default=-32000)
     hct_min = db.Column(db.REAL, nullable=False, default=-32000)
+    device_id = db.Column(db.String, nullable=False, default='0000')
 
 def map_to_entity(p: tp.Type[parsed_data.Log_data]):
     log = ParcedLog()
@@ -59,6 +60,7 @@ def map_to_entity(p: tp.Type[parsed_data.Log_data]):
     log.svo2_min = p.svo2_min
     log.hct_max = p.hct_max
     log.hct_min = p.hct_min
+    log.device_id = p.device_id
     return log
 
 def map_to_object(p: tp.Type[ParcedLog]):
@@ -84,6 +86,7 @@ def map_to_object(p: tp.Type[ParcedLog]):
     data.svo2_min = p.svo2_min
     data.hct_max = p.hct_max
     data.hct_min = p.hct_min
+    data.device_id = p.device_id
     return data
 
 def add(p: tp.Type[parsed_data.Log_data]):
@@ -102,9 +105,9 @@ def find_all():
     
     return objects
 
-def find_by_event_date(f, t):
+def find_by_event_date(f, t, device_id):
     objects = []
-    items = ParcedLog.query.filter(and_(ParcedLog.event_date >= f, ParcedLog.event_date <= t )).all()
+    items = ParcedLog.query.filter(and_(ParcedLog.event_date >= f, ParcedLog.event_date <= t, ParcedLog.device_id == device_id )).all()
 
     for item in items:
         o = map_to_object(item)

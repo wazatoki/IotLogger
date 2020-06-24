@@ -69,13 +69,22 @@ def cyclic_add():
             log_data.svo2 = data[k]
         elif k == 'hct':
             log_data.hct = data[k]
+        elif k == 'device_id':
+            log_data.device_id = data[k]
 
     cyclic_log.add(log_data)
 
     return jsonify({'result': 'ok'})
 
-@app.route(flaskSetup.url_prefix + 'cyclic/add/test', methods=['POST'])
-def cyclic_test_data_add():
+@app.route(flaskSetup.url_prefix + 'cyclic/add/test1', methods=['POST'])
+def cyclic_test_data_1_add():
+    cyclic_test_data_add('test_device_id_1')
+
+@app.route(flaskSetup.url_prefix + 'cyclic/add/test2', methods=['POST'])
+def cyclic_test_data_2_add():
+    cyclic_test_data_add('test_device_id_2')
+
+def cyclic_test_data_add(device_id):
     print('start')
     dataList = []
     log_data = cyclic_data.Log_data()
@@ -96,6 +105,7 @@ def cyclic_test_data_add():
     log_data.tart=0
     log_data.svo2 =0
     log_data.hct =0
+    log_data.device_id = device_id
 
     dataList.append(log_data)
 

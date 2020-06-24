@@ -26,6 +26,7 @@ class CyclicLog(db.Model):
     tart = db.Column(db.REAL, nullable=False, default=-32000)
     svo2 = db.Column(db.REAL, nullable=False, default=-32000)
     hct = db.Column(db.REAL, nullable=False, default=-32000)
+    device_id = db.Column(db.String, nullable=False, default='0000')
 
 
 def map_to_entity(c: tp.Type[cyclic_data.Log_data]):
@@ -41,6 +42,7 @@ def map_to_entity(c: tp.Type[cyclic_data.Log_data]):
     log.tart = c.tart
     log.svo2 = c.svo2
     log.hct = c.hct
+    log.device_id = c.device_id
     return log
 
 def map_to_object(c: tp.Type[CyclicLog]):
@@ -56,6 +58,7 @@ def map_to_object(c: tp.Type[CyclicLog]):
     data.tart = c.tart
     data.svo2 = c.svo2
     data.hct = c.hct
+    data.device_id = c.device_id
     return data
 
 def add(c: tp.Type[cyclic_data.Log_data]):
@@ -71,12 +74,13 @@ def add(c: tp.Type[cyclic_data.Log_data]):
     log.tart = c.tart
     log.svo2 = c.svo2
     log.hct = c.hct
+    log.device_id = c.device_id
 
     db.session.add(log)
     db.session.commit()
 
-def find_current_state(f, t):
-    items = CyclicLog.query.filter(and_(CyclicLog.event_date >= f, CyclicLog.event_date <= t ))\
+def find_current_state(f, t, device_id):
+    items = CyclicLog.query.filter(and_(CyclicLog.event_date >= f, CyclicLog.event_date <= t, CyclicLog.device_id == device_id ))\
         .order_by(desc(CyclicLog.event_date))\
         .limit(1)\
         .all()
@@ -87,15 +91,15 @@ def find_current_state(f, t):
         o = map_to_object(items[0])
         return o
 
-def mark_parsed_logs(f, t):
-    items = CyclicLog.query.filter(and_(CyclicLog.event_date >= f, CyclicLog.event_date <= t, CyclicLog.is_parsed == False )).all()
+def mark_parsed_logs(f, t, device_id):
+    items = CyclicLog.query.filter(and_(CyclicLog.event_date >= f, CyclicLog.event_date <= t, CyclicLog.is_parsed == False, CyclicLog.device_id == device_id )).all()
     
     for item in items:
         item.is_parsed = True
         db.session.commit()
 
-def find_first_not_Parsed():
-    items = CyclicLog.query.filter(CyclicLog.is_parsed == False)\
+def find_first_not_Parsed(device_id):
+    items = CyclicLog.query.filter(and_(CyclicLog.is_parsed == False, CyclicLog.device_id == device_id))\
         .order_by(CyclicLog.event_date)\
         .limit(1)\
         .all()
@@ -116,9 +120,9 @@ def find_all():
     
     return objects
 
-def find_by_event_date(f, t):
+def find_by_event_date(f, t, device_id):
     objects = []
-    items = CyclicLog.query.filter(and_(CyclicLog.event_date >= f, CyclicLog.event_date <= t )).all()
+    items = CyclicLog.query.filter(and_(CyclicLog.event_date >= f, CyclicLog.event_date <= t, CyclicLog.device_id == device_id )).all()
 
     for item in items:
         o = map_to_object(item)
