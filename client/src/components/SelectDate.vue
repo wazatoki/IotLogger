@@ -1,9 +1,26 @@
 <template>
   <div class="select-date">
-    <el-date-picker v-model="fromDate" type="date" placeholder="開始日"></el-date-picker>
-    <span>〜</span>
-    <el-date-picker v-model="toDate" type="date" placeholder="終了日"></el-date-picker>
-    <el-button type="primary" v-on:click="getData">データ取得</el-button>
+    <el-row>
+      <el-col :span="5">
+        <span style="color: white">blank</span>
+      </el-col>
+      <el-col :span="3">
+        <el-select v-model="deviveSelect" placeholder="Device Select">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+      </el-col>
+      <el-col :span="10">
+        <el-date-picker v-model="fromDate" type="date" placeholder="開始日"></el-date-picker>
+      <span>〜</span>
+      <el-date-picker v-model="toDate" type="date" placeholder="終了日"></el-date-picker>
+      <el-button type="primary" v-on:click="getData">データ取得</el-button>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -14,6 +31,8 @@ export default {
   name: "SelectDate",
   data() {
     return {
+      deviceSelect: "",
+      options: [],
       fromDate: this.getDefaultFromDate(),
       toDate: new Date(),
       parsedDataIntervalID: undefined,
@@ -35,7 +54,8 @@ export default {
       let d, self;
       d = new Date();
       self = this;
-      if (// 最終日付が本日と同じ時だけデータの再取得を行う
+      if (
+        // 最終日付が本日と同じ時だけデータの再取得を行う
         this.toDate.getFullYear() === d.getFullYear() &&
         this.toDate.getMonth() === d.getMonth() &&
         this.toDate.getDate() === d.getDate()
@@ -49,7 +69,8 @@ export default {
         this.currentStateIntervalID = setInterval(function() {
           self.fetchCurrentState();
         }, 5000);
-      } else {// データの再取得の停止。現在のステータスはクリアしない。
+      } else {
+        // データの再取得の停止。現在のステータスはクリアしない。
         clearInterval(this.parsedDataIntervalID);
         clearInterval(this.alertLogIntervalID);
       }
