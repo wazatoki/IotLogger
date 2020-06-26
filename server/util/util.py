@@ -23,3 +23,7 @@ def get_requested_to_datetime():
     t = t + timedelta(days = 1)
     t = t - timedelta(microseconds = 1)
     return t
+
+def get_requested_selected_device():
+    d = request.args.get('selectedDevice', default='')
+    return d

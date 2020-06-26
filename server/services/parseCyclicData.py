@@ -51,7 +51,7 @@ def add_parsd_data():
                     pd.hct_min = get_min_value(logs, 'hct')
 
                     parsed_log.add(pd)
-                    cyclic_log.mark_parsed_logs(fdt, tdt)
+                    cyclic_log.mark_parsed_logs(fdt, tdt, device_id)
         
 def get_max_value(items, key):
 

@@ -5,12 +5,12 @@
         <span style="color: white">blank</span>
       </el-col>
       <el-col :span="3">
-        <el-select v-model="deviveSelect" placeholder="Device Select">
+        <el-select v-model="selectedDevice" placeholder="Device Select">
         <el-option
           v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
+          :key="item"
+          :label="item"
+          :value="item"
         ></el-option>
       </el-select>
       </el-col>
@@ -29,9 +29,12 @@ import axios from "axios";
 
 export default {
   name: "SelectDate",
+  mounted: function() {
+    this.fetchAllDevices()
+  },
   data() {
     return {
-      deviceSelect: "",
+      selectedDevice: '',
       options: [],
       fromDate: this.getDefaultFromDate(),
       toDate: new Date(),
@@ -70,17 +73,28 @@ export default {
           self.fetchCurrentState();
         }, 5000);
       } else {
-        // データの再取得の停止。現在のステータスはクリアしない。
+        // データの再取得の停止。
         clearInterval(this.parsedDataIntervalID);
         clearInterval(this.alertLogIntervalID);
+        clearInterval(this.currentStateIntervalID);
       }
+    },
+    fetchAllDevices() {
+      axios
+        .get("api/find_all_devices")
+        .then(res => {
+          if (res.data && res.data.length > 0) {
+            this.options = res.data
+          }
+        });
     },
     fetchParcedData() {
       axios
         .get("api/find_parsed_by_event_date", {
           params: {
             from: this.fromDate,
-            to: this.toDate
+            to: this.toDate,
+            selectedDevice: this.selectedDevice
           }
         })
         .then(res => {
@@ -92,7 +106,8 @@ export default {
         .get("api/find_asynchronous_by_event_date", {
           params: {
             from: this.fromDate,
-            to: this.toDate
+            to: this.toDate,
+            selectedDevice: this.selectedDevice
           }
         })
         .then(res => {
@@ -100,7 +115,11 @@ export default {
         });
     },
     fetchCurrentState() {
-      axios.get("api/find_cyclic_current_state").then(res => {
+      axios.get("api/find_cyclic_current_state",{
+        params: {
+          selectedDevice: this.selectedDevice
+        }
+      }).then(res => {
         this.$emit("current-state-fetched", res.data);
       });
     }

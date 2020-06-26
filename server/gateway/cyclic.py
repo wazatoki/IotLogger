@@ -15,8 +15,9 @@ app = flaskSetup.app
 def find_cyclic_current_state():
     t = datetime.datetime.now(timezone('UTC'))
     f = t - datetime.timedelta(minutes = 5)
+    d = util.get_requested_selected_device()
 
-    item = cyclic_log.find_current_state(f, t)
+    item = cyclic_log.find_current_state(f, t, d)
 
     if item != None:
         item.dt = timezone('UTC').localize(item.dt)
@@ -30,7 +31,8 @@ def find_cyclic_current_state():
 def find_cyclic_by_event_date():
     f = util.get_requested_from_datetime()
     t = util.get_requested_to_datetime()
-    items = cyclic_log.find_by_event_date(f, t)
+    d = util.get_requested_selected_device()
+    items = cyclic_log.find_by_event_date(f, t, d)
     result_items = []
     for item in items:
         item.dt = timezone('UTC').localize(item.dt)
@@ -175,7 +177,8 @@ def cyclic_test_data_add(device_id):
             ld.hct = dataList[i-1].hct + a
         else:
             ld.hct = dataList[i-1].hct
-      
+
+        ld.device_id = device_id
         
         dataList.append(ld)
 

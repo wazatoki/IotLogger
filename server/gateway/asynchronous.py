@@ -13,7 +13,8 @@ app = flaskSetup.app
 def find_asynchronous_by_event_date():
     f = util.get_requested_from_datetime()
     t = util.get_requested_to_datetime()
-    items = asynchronous_log.find_by_event_date(f, t)
+    d = util.get_requested_selected_device()
+    items = asynchronous_log.find_by_event_date(f, t, d)
     result_items = []
     for item in items:
         item.dt = timezone('UTC').localize(item.dt)
