@@ -1,26 +1,12 @@
 <template>
   <div class="select-date">
-    <el-row>
-      <el-col :span="5">
-        <span style="color: white">blank</span>
-      </el-col>
-      <el-col :span="3">
-        <el-select v-model="selectedDevice" placeholder="Device Select">
-        <el-option
-          v-for="item in options"
-          :key="item"
-          :label="item"
-          :value="item"
-        ></el-option>
-      </el-select>
-      </el-col>
-      <el-col :span="10">
-        <el-date-picker v-model="fromDate" type="date" placeholder="開始日"></el-date-picker>
-      <span>〜</span>
-      <el-date-picker v-model="toDate" type="date" placeholder="終了日"></el-date-picker>
-      <el-button type="primary" v-on:click="getData">データ取得</el-button>
-      </el-col>
-    </el-row>
+    <el-select v-model="selectedDevice" placeholder="Device Select" class="device-select">
+      <el-option v-for="item in options" :key="item" :label="item" :value="item"></el-option>
+    </el-select>
+    <el-date-picker v-model="fromDate" type="date" placeholder="開始日"></el-date-picker>
+    <span>〜</span>
+    <el-date-picker v-model="toDate" type="date" placeholder="終了日"></el-date-picker>
+    <el-button type="primary" v-on:click="getData">データ取得</el-button>
   </div>
 </template>
 
@@ -30,11 +16,11 @@ import axios from "axios";
 export default {
   name: "SelectDate",
   mounted: function() {
-    this.fetchAllDevices()
+    this.fetchAllDevices();
   },
   data() {
     return {
-      selectedDevice: '',
+      selectedDevice: "",
       options: [],
       fromDate: this.getDefaultFromDate(),
       toDate: new Date(),
@@ -80,13 +66,11 @@ export default {
       }
     },
     fetchAllDevices() {
-      axios
-        .get("api/find_all_devices")
-        .then(res => {
-          if (res.data && res.data.length > 0) {
-            this.options = res.data
-          }
-        });
+      axios.get("api/find_all_devices").then(res => {
+        if (res.data && res.data.length > 0) {
+          this.options = res.data;
+        }
+      });
     },
     fetchParcedData() {
       axios
@@ -115,13 +99,15 @@ export default {
         });
     },
     fetchCurrentState() {
-      axios.get("api/find_cyclic_current_state",{
-        params: {
-          selectedDevice: this.selectedDevice
-        }
-      }).then(res => {
-        this.$emit("current-state-fetched", res.data);
-      });
+      axios
+        .get("api/find_cyclic_current_state", {
+          params: {
+            selectedDevice: this.selectedDevice
+          }
+        })
+        .then(res => {
+          this.$emit("current-state-fetched", res.data);
+        });
     }
   }
 };
@@ -130,5 +116,8 @@ export default {
 <style scoped>
 span {
   color: darkgray;
+}
+.device-select {
+  margin-right: 2em;
 }
 </style>
