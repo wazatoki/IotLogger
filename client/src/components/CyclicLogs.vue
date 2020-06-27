@@ -32,6 +32,14 @@
         <div class="select-chart">
           <el-checkbox v-model="isHct">hct</el-checkbox>
         </div>
+        <div class="clear"></div>
+
+        <div class="master-maintenance-button">
+          <span v-on:click="deviceMasterVisible = true">device マスター</span>
+        </div>
+        <div class="master-maintenance-button">
+          <span v-on:click="itemMasterVisible = true">item マスター</span>
+        </div>
       </el-col>
       <el-col :span="22">
         <el-row v-if="isSpeed">
@@ -135,15 +143,37 @@
         </el-row>
       </el-col>
     </el-row>
+    <el-dialog title="device マスターメンテナンス" :visible.sync="deviceMasterVisible" width="70%">
+      <device-master v-on:device-data-saved="deviceDataSaved"></device-master>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="deviceMasterVisible = false">Cancel</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog title="item マスターメンテナンス" :visible.sync="itemMasterVisible" width="70%">
+      <item-master></item-master>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="itemMasterVisible = false">Cancel</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog :visible.sync="noticeDialogVisible" width="40%">
+      <span>{{ noticeMessage }}</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="noticeDialogVisible = false">OK</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import GeneralChart from "./charts/GeneralChart";
+import DeviceMaster from "./DeviceMaster";
+import ItemMaster from "./ItemMaster";
 export default {
   name: "CyclicLogs",
   components: {
-    GeneralChart
+    GeneralChart,
+    DeviceMaster,
+    ItemMaster
   },
   props: {
     cyclickData: Array,
@@ -292,6 +322,11 @@ export default {
     }
   },
   methods: {
+    deviceDataSaved() {
+      this.deviceMasterVisible = false
+      this.noticeMessage = 'deviceデータの保存に成功しました。'
+      this.noticeDialogVisible = true
+    },
     createChartDataObj() {
       return {
         datasets: [
@@ -350,7 +385,11 @@ export default {
         },
         animation: false
       },
-      chartHeight: 80
+      chartHeight: 80,
+      deviceMasterVisible: false,
+      itemMasterVisible: false,
+      noticeDialogVisible: false,
+      noticeMessage: '',
     };
   }
 };
@@ -361,5 +400,13 @@ div.select-chart {
   width: 5em;
   float: left;
   text-align: left;
+}
+
+div.clear {
+  clear: both;
+}
+
+div.master-maintenance-button {
+  margin-top: 3em;
 }
 </style>

@@ -40,9 +40,9 @@ export default {
       this.fetchParcedData();
       this.fetchAsynchronousData();
       this.fetchCurrentState();
-      let d, self;
+      let d;
       d = new Date();
-      self = this;
+      const self = this;
       if (
         // 最終日付が本日と同じ時だけデータの再取得を行う
         this.toDate.getFullYear() === d.getFullYear() &&
