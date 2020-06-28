@@ -2,7 +2,7 @@ from infrastructure.flaskSetup import db
 
 class Device(db.Model):
 
-    __tablename__ = 'device'
+    __tablename__ = 'devices'
 
     id = db.Column(db.String, primary_key=True)
 

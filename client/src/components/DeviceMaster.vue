@@ -37,7 +37,7 @@ export default {
       this.devices.forEach(device => {
         data.push(device.id)
       });
-      axios.post("api/device/add", data).then(() => {
+      axios.post("api/device/save", data).then(() => {
         this.devices = []
         this.fetchAllDevices()
         this.$emit("device-data-saved");

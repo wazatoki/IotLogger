@@ -38,7 +38,7 @@
           <span v-on:click="deviceMasterVisible = true">device マスター</span>
         </div>
         <div class="master-maintenance-button">
-          <span v-on:click="itemMasterVisible = true">item マスター</span>
+          <span v-on:click="onClickItemMaster">item マスター</span>
         </div>
       </el-col>
       <el-col :span="22">
@@ -143,14 +143,14 @@
         </el-row>
       </el-col>
     </el-row>
-    <el-dialog title="device マスターメンテナンス" :visible.sync="deviceMasterVisible" width="70%">
+    <el-dialog title="device マスターメンテナンス" :visible.sync="deviceMasterVisible" width="40%">
       <device-master v-on:device-data-saved="deviceDataSaved"></device-master>
       <span slot="footer" class="dialog-footer">
         <el-button @click="deviceMasterVisible = false">Cancel</el-button>
       </span>
     </el-dialog>
-    <el-dialog title="item マスターメンテナンス" :visible.sync="itemMasterVisible" width="70%">
-      <item-master></item-master>
+    <el-dialog title="item マスターメンテナンス" :visible.sync="itemMasterVisible" width="50%">
+      <item-master :devices="devices" v-on:device-item-data-saved="deviceItemDataSaved"></item-master>
       <span slot="footer" class="dialog-footer">
         <el-button @click="itemMasterVisible = false">Cancel</el-button>
       </span>
@@ -165,6 +165,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import GeneralChart from "./charts/GeneralChart";
 import DeviceMaster from "./DeviceMaster";
 import ItemMaster from "./ItemMaster";
@@ -178,6 +179,54 @@ export default {
   props: {
     cyclickData: Array,
     currentState: Object
+  },
+  methods: {
+    onClickItemMaster() {
+      this.fetchAllDevices();
+      this.itemMasterVisible = true
+    },
+    fetchAllDevices() {
+      axios.get("api/find_all_devices").then(res => {
+        if (res.data && res.data.length > 0) {
+          this.devices = res.data;
+        }
+      });
+    },
+    deviceDataSaved() {
+      this.fetchAllDevices();
+      this.deviceMasterVisible = false;
+      this.noticeMessage = "deviceデータの保存に成功しました。";
+      this.noticeDialogVisible = true;
+    },
+    deviceItemDataSaved() {
+      this.itemMasterVisible = false;
+      this.noticeMessage = "itemデータの保存に成功しました。";
+      this.noticeDialogVisible = true;
+    },
+    createChartDataObj() {
+      return {
+        datasets: [
+          {
+            label: "",
+            borderColor: "#550000",
+            fill: false,
+            radius: 0,
+            borderJoinStyle: "round",
+            borderWidth: 1,
+            data: []
+          },
+          {
+            label: "",
+            borderColor: "#000055",
+            fill: false,
+            radius: 0,
+            borderJoinStyle: "round",
+            borderWidth: 1,
+            data: []
+          }
+        ]
+      };
+    }
   },
   computed: {
     speedData: function() {
@@ -321,37 +370,6 @@ export default {
       return result;
     }
   },
-  methods: {
-    deviceDataSaved() {
-      this.deviceMasterVisible = false
-      this.noticeMessage = 'deviceデータの保存に成功しました。'
-      this.noticeDialogVisible = true
-    },
-    createChartDataObj() {
-      return {
-        datasets: [
-          {
-            label: "",
-            borderColor: "#550000",
-            fill: false,
-            radius: 0,
-            borderJoinStyle: "round",
-            borderWidth: 1,
-            data: []
-          },
-          {
-            label: "",
-            borderColor: "#000055",
-            fill: false,
-            radius: 0,
-            borderJoinStyle: "round",
-            borderWidth: 1,
-            data: []
-          }
-        ]
-      };
-    }
-  },
   data() {
     return {
       isSpeed: true,
@@ -388,8 +406,9 @@ export default {
       chartHeight: 80,
       deviceMasterVisible: false,
       itemMasterVisible: false,
+      devices: [],
       noticeDialogVisible: false,
-      noticeMessage: '',
+      noticeMessage: ""
     };
   }
 };

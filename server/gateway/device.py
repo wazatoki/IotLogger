@@ -10,8 +10,8 @@ def find_all():
     items = device.find_all_IDs()
     return jsonify(items)
 
-@app.route(flaskSetup.url_prefix + 'device/add', methods=['POST'])
-def device_add():
+@app.route(flaskSetup.url_prefix + 'device/save', methods=['POST'])
+def device_save():
     data = request.json
 
     device.delete_all()
