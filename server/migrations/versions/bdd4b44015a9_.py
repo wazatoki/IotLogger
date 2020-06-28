@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: b7ded243d4aa
+Revision ID: bdd4b44015a9
 Revises: 
-Create Date: 2020-06-28 13:02:34.699555
+Create Date: 2020-06-28 17:58:49.351180
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b7ded243d4aa'
+revision = 'bdd4b44015a9'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -35,17 +35,17 @@ def upgrade():
     sa.Column('updated_at', sa.DateTime(), nullable=False),
     sa.Column('is_parsed', sa.Boolean(), nullable=False),
     sa.Column('event_date', sa.DateTime(), nullable=False),
-    sa.Column('speed', sa.Integer(), nullable=False),
-    sa.Column('flow', sa.REAL(), nullable=False),
-    sa.Column('pven', sa.Integer(), nullable=False),
-    sa.Column('pint', sa.Integer(), nullable=False),
-    sa.Column('deltap', sa.Integer(), nullable=False),
-    sa.Column('part', sa.Integer(), nullable=False),
-    sa.Column('tven', sa.REAL(), nullable=False),
-    sa.Column('tart', sa.REAL(), nullable=False),
-    sa.Column('svo2', sa.REAL(), nullable=False),
-    sa.Column('hct', sa.REAL(), nullable=False),
     sa.Column('device_id', sa.String(), nullable=False),
+    sa.Column('item0', sa.REAL(), nullable=False),
+    sa.Column('item1', sa.REAL(), nullable=False),
+    sa.Column('item2', sa.REAL(), nullable=False),
+    sa.Column('item3', sa.REAL(), nullable=False),
+    sa.Column('item4', sa.REAL(), nullable=False),
+    sa.Column('item5', sa.REAL(), nullable=False),
+    sa.Column('item6', sa.REAL(), nullable=False),
+    sa.Column('item7', sa.REAL(), nullable=False),
+    sa.Column('item8', sa.REAL(), nullable=False),
+    sa.Column('item9', sa.REAL(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('device_items',
@@ -68,27 +68,27 @@ def upgrade():
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
     sa.Column('event_date', sa.DateTime(), nullable=False),
-    sa.Column('speed_max', sa.Integer(), nullable=False),
-    sa.Column('speed_min', sa.Integer(), nullable=False),
-    sa.Column('flow_max', sa.REAL(), nullable=False),
-    sa.Column('flow_min', sa.REAL(), nullable=False),
-    sa.Column('pven_max', sa.Integer(), nullable=False),
-    sa.Column('pven_min', sa.Integer(), nullable=False),
-    sa.Column('pint_max', sa.Integer(), nullable=False),
-    sa.Column('pint_min', sa.Integer(), nullable=False),
-    sa.Column('deltap_max', sa.Integer(), nullable=False),
-    sa.Column('deltap_min', sa.Integer(), nullable=False),
-    sa.Column('part_max', sa.Integer(), nullable=False),
-    sa.Column('part_min', sa.Integer(), nullable=False),
-    sa.Column('tven_max', sa.REAL(), nullable=False),
-    sa.Column('tven_min', sa.REAL(), nullable=False),
-    sa.Column('tart_max', sa.REAL(), nullable=False),
-    sa.Column('tart_min', sa.REAL(), nullable=False),
-    sa.Column('svo2_max', sa.REAL(), nullable=False),
-    sa.Column('svo2_min', sa.REAL(), nullable=False),
-    sa.Column('hct_max', sa.REAL(), nullable=False),
-    sa.Column('hct_min', sa.REAL(), nullable=False),
     sa.Column('device_id', sa.String(), nullable=False),
+    sa.Column('item0_max', sa.REAL(), nullable=False),
+    sa.Column('item0_min', sa.REAL(), nullable=False),
+    sa.Column('item1_max', sa.REAL(), nullable=False),
+    sa.Column('item1_min', sa.REAL(), nullable=False),
+    sa.Column('item2_max', sa.REAL(), nullable=False),
+    sa.Column('item2_min', sa.REAL(), nullable=False),
+    sa.Column('item3_max', sa.REAL(), nullable=False),
+    sa.Column('item3_min', sa.REAL(), nullable=False),
+    sa.Column('item4_max', sa.REAL(), nullable=False),
+    sa.Column('item4_min', sa.REAL(), nullable=False),
+    sa.Column('item5_max', sa.REAL(), nullable=False),
+    sa.Column('item5_min', sa.REAL(), nullable=False),
+    sa.Column('item6_max', sa.REAL(), nullable=False),
+    sa.Column('item6_min', sa.REAL(), nullable=False),
+    sa.Column('item7_max', sa.REAL(), nullable=False),
+    sa.Column('item7_min', sa.REAL(), nullable=False),
+    sa.Column('item8_max', sa.REAL(), nullable=False),
+    sa.Column('item8_min', sa.REAL(), nullable=False),
+    sa.Column('item9_max', sa.REAL(), nullable=False),
+    sa.Column('item9_min', sa.REAL(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

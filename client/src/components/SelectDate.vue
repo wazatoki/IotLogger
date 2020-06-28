@@ -1,6 +1,6 @@
 <template>
   <div class="select-date">
-    <el-select v-model="selectedDevice" placeholder="Device Select" class="device-select">
+    <el-select v-model="selectedDevice" v-on:change="deviceSelected" placeholder="Device Select" class="device-select">
       <el-option v-for="item in options" :key="item" :label="item" :value="item"></el-option>
     </el-select>
     <el-date-picker v-model="fromDate" type="date" placeholder="開始日"></el-date-picker>
@@ -30,6 +30,9 @@ export default {
     };
   },
   methods: {
+    deviceSelected() {
+      this.fetchDeviceItems()
+    },
     getDefaultFromDate() {
       let d;
       d = new Date();
@@ -107,6 +110,17 @@ export default {
         })
         .then(res => {
           this.$emit("current-state-fetched", res.data);
+        });
+    },
+    fetchDeviceItems() {
+      axios
+        .get("api/find_device_items_by_deviceID", {
+          params: {
+            selectedDevice: this.selectedDevice
+          }
+        })
+        .then(res => {
+          this.$emit("device-items-fetched", res.data);
         });
     }
   }

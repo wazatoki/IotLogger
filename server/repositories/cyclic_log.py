@@ -16,67 +16,56 @@ class CyclicLog(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
     is_parsed = db.Column(db.Boolean, nullable=False, default=False)
     event_date = db.Column(db.DateTime, nullable=False, default=datetime.now)
-    speed = db.Column(db.Integer, nullable=False, default=-32000)
-    flow = db.Column(db.REAL, nullable=False, default=-32000)
-    pven = db.Column(db.Integer, nullable=False, default=-32000)
-    pint = db.Column(db.Integer, nullable=False, default=-32000)
-    deltap = db.Column(db.Integer, nullable=False, default=-32000)
-    part = db.Column(db.Integer, nullable=False, default=-32000)
-    tven = db.Column(db.REAL, nullable=False, default=-32000)
-    tart = db.Column(db.REAL, nullable=False, default=-32000)
-    svo2 = db.Column(db.REAL, nullable=False, default=-32000)
-    hct = db.Column(db.REAL, nullable=False, default=-32000)
     device_id = db.Column(db.String, nullable=False, default='0000')
+    item0 = db.Column(db.REAL, nullable=False, default=-32000)
+    item1 = db.Column(db.REAL, nullable=False, default=-32000)
+    item2 = db.Column(db.REAL, nullable=False, default=-32000)
+    item3 = db.Column(db.REAL, nullable=False, default=-32000)
+    item4 = db.Column(db.REAL, nullable=False, default=-32000)
+    item5 = db.Column(db.REAL, nullable=False, default=-32000)
+    item6 = db.Column(db.REAL, nullable=False, default=-32000)
+    item7 = db.Column(db.REAL, nullable=False, default=-32000)
+    item8 = db.Column(db.REAL, nullable=False, default=-32000)
+    item9 = db.Column(db.REAL, nullable=False, default=-32000)
+    
 
 
-def map_to_entity(c: tp.Type[cyclic_data.Log_data]):
-    log = CyclicLog()
-    log.event_date = c.dt
-    log.speed = c.speed
-    log.flow = c.flow
-    log.pven = c.pven
-    log.pint = c.pint
-    log.deltap = c.deltap
-    log.part = c.part
-    log.tven = c.tven
-    log.tart = c.tart
-    log.svo2 = c.svo2
-    log.hct = c.hct
-    log.device_id = c.device_id
-    return log
+def map_to_entity(o: tp.Type[cyclic_data.Log_data]):
+    e = CyclicLog()
+    e.event_date = o.dt
+    e.device_id = o.device_id
+    e.item0 = o.item0
+    e.item1 = o.item1
+    e.item2 = o.item2
+    e.item3 = o.item3
+    e.item4 = o.item4
+    e.item5 = o.item5
+    e.item6 = o.item6
+    e.item7 = o.item7
+    e.item8 = o.item8
+    e.item9 = o.item9
+    
+    return e
 
-def map_to_object(c: tp.Type[CyclicLog]):
-    data = cyclic_data.Log_data()
-    data.dt = c.event_date
-    data.speed = c.speed
-    data.flow = c.flow
-    data.pven = c.pven
-    data.pint = c.pint
-    data.deltap = c.deltap
-    data.part = c.part
-    data.tven = c.tven
-    data.tart = c.tart
-    data.svo2 = c.svo2
-    data.hct = c.hct
-    data.device_id = c.device_id
-    return data
+def map_to_object(e: tp.Type[CyclicLog]):
+    o = cyclic_data.Log_data()
+    o.dt = e.event_date
+    o.device_id = e.device_id
+    o.item0 = e.item0
+    o.item1 = e.item1
+    o.item2 = e.item2
+    o.item3 = e.item3
+    o.item4 = e.item4
+    o.item5 = e.item5
+    o.item6 = e.item6
+    o.item7 = e.item7
+    o.item8 = e.item8
+    o.item9 = e.item9
+    return o
 
-def add(c: tp.Type[cyclic_data.Log_data]):
-    log = CyclicLog()
-    log.event_date = c.dt
-    log.speed = c.speed
-    log.flow = c.flow
-    log.pven = c.pven
-    log.pint = c.pint
-    log.deltap = c.deltap
-    log.part = c.part
-    log.tven = c.tven
-    log.tart = c.tart
-    log.svo2 = c.svo2
-    log.hct = c.hct
-    log.device_id = c.device_id
-
-    db.session.add(log)
+def add(o: tp.Type[cyclic_data.Log_data]):
+    e = map_to_entity(o)
+    db.session.add(e)
     db.session.commit()
 
 def find_current_state(f, t, device_id):

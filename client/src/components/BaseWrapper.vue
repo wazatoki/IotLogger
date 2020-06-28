@@ -6,12 +6,17 @@
           v-on:parsed-data-fetched="setCyclicData"
           v-on:asynchronous-data-fetched="setAlertData"
           v-on:current-state-fetched="setCurrentState"
+          v-on:device-items-fetched="setDeviceItems"
         ></select-date>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="18">
-        <cyclic-logs v-bind:cyclickData="cyclickData" v-bind:currentState="currentState"></cyclic-logs>
+        <cyclic-logs
+          v-bind:cyclickData="cyclickData"
+          v-bind:currentState="currentState"
+          v-bind:deviceItems="deviceItems"
+        ></cyclic-logs>
       </el-col>
       <el-col :span="6">
         <alert-logs v-bind:alertData="alertData"></alert-logs>
@@ -35,7 +40,8 @@ export default {
     return {
       alertData: [],
       cyclickData: [],
-      currentState: {}
+      currentState: {},
+      deviceItems: []
     };
   },
   methods: {
@@ -50,6 +56,9 @@ export default {
         data = {};
       }
       this.currentState = data;
+    },
+    setDeviceItems(data) {
+      this.deviceItems = data;
     }
   }
 };

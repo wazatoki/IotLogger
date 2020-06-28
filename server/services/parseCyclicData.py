@@ -29,33 +29,34 @@ def add_parsd_data():
                     pd = parsed_data.Log_data()
                     pd.device_id = logs[0].device_id
                     pd.dt = fdt
-                    pd.speed_max = get_max_value(logs, 'speed')
-                    pd.speed_min = get_min_value(logs, 'speed')
-                    pd.flow_max = get_max_value(logs, 'flow')
-                    pd.flow_min = get_min_value(logs, 'flow')
-                    pd.pven_max = get_max_value(logs, 'pven')
-                    pd.pven_min = get_min_value(logs, 'pven')
-                    pd.pint_max = get_max_value(logs, 'pint')
-                    pd.pint_min = get_min_value(logs, 'pint')
-                    pd.deltap_max = get_max_value(logs, 'deltap')
-                    pd.deltap_min = get_min_value(logs, 'deltap')
-                    pd.part_max = get_max_value(logs, 'part')
-                    pd.part_min = get_min_value(logs, 'part')
-                    pd.tven_max = get_max_value(logs, 'tven')
-                    pd.tven_min = get_min_value(logs, 'tven')
-                    pd.tart_max = get_max_value(logs, 'tart')
-                    pd.tart_min = get_min_value(logs, 'tart')
-                    pd.svo2_max = get_max_value(logs, 'svo2')
-                    pd.svo2_min = get_min_value(logs, 'svo2')
-                    pd.hct_max = get_max_value(logs, 'hct')
-                    pd.hct_min = get_min_value(logs, 'hct')
+                    pd.item0_max = get_max_value(logs, 'item0')
+                    pd.item0_min = get_min_value(logs, 'item0')
+                    pd.item1_max = get_max_value(logs, 'item1')
+                    pd.item1_min = get_min_value(logs, 'item1')
+                    pd.item2_max = get_max_value(logs, 'item2')
+                    pd.item2_min = get_min_value(logs, 'item2')
+                    pd.item3_max = get_max_value(logs, 'item3')
+                    pd.item3_min = get_min_value(logs, 'item3')
+                    pd.item4_max = get_max_value(logs, 'item4')
+                    pd.item4_min = get_min_value(logs, 'item4')
+                    pd.item5_max = get_max_value(logs, 'item5')
+                    pd.item5_min = get_min_value(logs, 'item5')
+                    pd.item6_max = get_max_value(logs, 'item6')
+                    pd.item6_min = get_min_value(logs, 'item6')
+                    pd.item7_max = get_max_value(logs, 'item7')
+                    pd.item7_min = get_min_value(logs, 'item7')
+                    pd.item8_max = get_max_value(logs, 'item8')
+                    pd.item8_min = get_min_value(logs, 'item8')
+                    pd.item9_max = get_max_value(logs, 'item9')
+                    pd.item9_min = get_min_value(logs, 'item9')
 
                     parsed_log.add(pd)
                     cyclic_log.mark_parsed_logs(fdt, tdt, device_id)
         
 def get_max_value(items, key):
 
-    v = 0
+    baseObj = items[0].get_Data()
+    v = baseObj[key]
     for item in items:
         itemObj = item.get_Data()
         if v < itemObj[key] :

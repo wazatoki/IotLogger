@@ -19,3 +19,10 @@ def device_save():
         device.add(id)
 
     return jsonify({'result': 'ok'})
+
+@app.route(flaskSetup.url_prefix + 'device/add/test1', methods=['POST'])
+def device_test_data_1_add():
+    device.add('test_device_id_1')
+    device.add('test_device_id_2')
+
+    return jsonify({'result': 'ok'})

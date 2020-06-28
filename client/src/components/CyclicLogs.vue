@@ -3,34 +3,34 @@
     <el-row>
       <el-col :span="2">
         <div class="select-chart">
-          <el-checkbox v-model="isSpeed">speed</el-checkbox>
+          <el-checkbox v-model="isItem0">{{ deviceItems[0].name }}</el-checkbox>
         </div>
         <div class="select-chart">
-          <el-checkbox v-model="isFlow">flow</el-checkbox>
+          <el-checkbox v-model="isItem1">{{ deviceItems[1].name }}</el-checkbox>
         </div>
         <div class="select-chart">
-          <el-checkbox v-model="isPven">pven</el-checkbox>
+          <el-checkbox v-model="isItem2">{{ deviceItems[2].name }}</el-checkbox>
         </div>
         <div class="select-chart">
-          <el-checkbox v-model="isPint">pint</el-checkbox>
+          <el-checkbox v-model="isItem3">{{ deviceItems[3].name }}</el-checkbox>
         </div>
         <div class="select-chart">
-          <el-checkbox v-model="isDeltap">⊿p</el-checkbox>
+          <el-checkbox v-model="isItem4">{{ deviceItems[4].name }}</el-checkbox>
         </div>
         <div class="select-chart">
-          <el-checkbox v-model="isPart">part</el-checkbox>
+          <el-checkbox v-model="isItem5">{{ deviceItems[5].name }}</el-checkbox>
         </div>
         <div class="select-chart">
-          <el-checkbox v-model="isTven">tven</el-checkbox>
+          <el-checkbox v-model="isItem6">{{ deviceItems[6].name }}</el-checkbox>
         </div>
         <div class="select-chart">
-          <el-checkbox v-model="isTart">tart</el-checkbox>
+          <el-checkbox v-model="isItem7">{{ deviceItems[7].name }}</el-checkbox>
         </div>
         <div class="select-chart">
-          <el-checkbox v-model="isSvo2">svo2</el-checkbox>
+          <el-checkbox v-model="isItem8">{{ deviceItems[8].name }}</el-checkbox>
         </div>
         <div class="select-chart">
-          <el-checkbox v-model="isHct">hct</el-checkbox>
+          <el-checkbox v-model="isItem9">{{ deviceItems[9].name }}</el-checkbox>
         </div>
         <div class="clear"></div>
 
@@ -42,103 +42,133 @@
         </div>
       </el-col>
       <el-col :span="22">
-        <el-row v-if="isSpeed">
+        <el-row v-if="isItem0">
           <el-col :span="3">
-            <p>speed</p>
-            <p>{{ currentState.speed }}</p>
+            <p>{{ deviceItems[0].name }}</p>
+            <p>
+              <span>{{ currentState.item0 }}</span>
+              <span>{{ deviceItems[0].unit }}</span>
+            </p>
           </el-col>
           <el-col :span="21">
-            <general-chart :chartData="speedData" :options="chartOption" :height="chartHeight"></general-chart>
+            <general-chart :chartData="item0Data" :options="chartOption" :height="chartHeight"></general-chart>
           </el-col>
         </el-row>
 
-        <el-row v-if="isFlow">
+        <el-row v-if="isItem1">
           <el-col :span="3">
-            <p>flow</p>
-            <p>{{ currentState.flow }}</p>
+            <p>{{ deviceItems[1].name }}</p>
+            <p>
+              <span>{{ currentState.item1 }}</span>
+              <span>{{ deviceItems[1].unit }}</span>
+            </p>
           </el-col>
           <el-col :span="21">
-            <general-chart :chartData="flowData" :options="chartOption" :height="chartHeight"></general-chart>
+            <general-chart :chartData="item1Data" :options="chartOption" :height="chartHeight"></general-chart>
           </el-col>
         </el-row>
 
-        <el-row v-if="isPven">
+        <el-row v-if="isItem2">
           <el-col :span="3">
-            <p>pven</p>
-            <p>{{ currentState.pven }}</p>
+            <p>{{ deviceItems[2].name }}</p>
+            <p>
+              <span>{{ currentState.item2 }}</span>
+              <span>{{ deviceItems[2].unit }}</span>
+            </p>
           </el-col>
           <el-col :span="21">
-            <general-chart :chartData="pvenData" :options="chartOption" :height="chartHeight"></general-chart>
+            <general-chart :chartData="item2Data" :options="chartOption" :height="chartHeight"></general-chart>
           </el-col>
         </el-row>
 
-        <el-row v-if="isPint">
+        <el-row v-if="isItem3">
           <el-col :span="3">
-            <p>pint</p>
-            <p>{{ currentState.pint }}</p>
+            <p>{{ deviceItems[3].name }}</p>
+            <p>
+              <span>{{ currentState.item3 }}</span>
+              <span>{{ deviceItems[3].unit }}</span>
+            </p>
           </el-col>
           <el-col :span="21">
-            <general-chart :chartData="pintData" :options="chartOption" :height="chartHeight"></general-chart>
+            <general-chart :chartData="item3Data" :options="chartOption" :height="chartHeight"></general-chart>
           </el-col>
         </el-row>
 
-        <el-row v-if="isDeltap">
+        <el-row v-if="isItem4">
           <el-col :span="3">
-            <p>⊿p</p>
-            <p>{{ currentState.deltap }}</p>
+            <p>{{ deviceItems[4].name }}</p>
+            <p>
+              <span>{{ currentState.item4 }}</span>
+              <span>{{ deviceItems[4].unit }}</span>
+            </p>
           </el-col>
           <el-col :span="21">
-            <general-chart :chartData="deltapData" :options="chartOption" :height="chartHeight"></general-chart>
+            <general-chart :chartData="item4Data" :options="chartOption" :height="chartHeight"></general-chart>
           </el-col>
         </el-row>
 
-        <el-row v-if="isPart">
+        <el-row v-if="isItem5">
           <el-col :span="3">
-            <p>part</p>
-            <p>{{ currentState.part }}</p>
+            <p>{{ deviceItems[5].name }}</p>
+            <p>
+              <span>{{ currentState.item5 }}</span>
+              <span>{{ deviceItems[5].unit }}</span>
+            </p>
           </el-col>
           <el-col :span="21">
-            <general-chart :chartData="partData" :options="chartOption" :height="chartHeight"></general-chart>
+            <general-chart :chartData="item5Data" :options="chartOption" :height="chartHeight"></general-chart>
           </el-col>
         </el-row>
 
-        <el-row v-if="isTven">
+        <el-row v-if="isItem6">
           <el-col :span="3">
-            <p>tven</p>
-            <p>{{ currentState.tven }}</p>
+            <p>{{ deviceItems[6].name }}</p>
+            <p>
+              <span>{{ currentState.item6 }}</span>
+              <span>{{ deviceItems[6].unit }}</span>
+            </p>
           </el-col>
           <el-col :span="21">
-            <general-chart :chartData="tvenData" :options="chartOption" :height="chartHeight"></general-chart>
+            <general-chart :chartData="item6Data" :options="chartOption" :height="chartHeight"></general-chart>
           </el-col>
         </el-row>
 
-        <el-row v-if="isTart">
+        <el-row v-if="isItem7">
           <el-col :span="3">
-            <p>tart</p>
-            <p>{{ currentState.tart }}</p>
+            <p>{{ deviceItems[7].name }}</p>
+            <p>
+              <span>{{ currentState.item7 }}</span>
+              <span>{{ deviceItems[7].unit }}</span>
+            </p>
           </el-col>
           <el-col :span="21">
-            <general-chart :chartData="tartData" :options="chartOption" :height="chartHeight"></general-chart>
+            <general-chart :chartData="item7Data" :options="chartOption" :height="chartHeight"></general-chart>
           </el-col>
         </el-row>
 
-        <el-row v-if="isSvo2">
+        <el-row v-if="isItem8">
           <el-col :span="3">
-            <p>svo2</p>
-            <p>{{ currentState.svo2 }}</p>
+            <p>{{ deviceItems[8].name }}</p>
+            <p>
+              <span>{{ currentState.item8 }}</span>
+              <span>{{ deviceItems[8].unit }}</span>
+            </p>
           </el-col>
           <el-col :span="21">
-            <general-chart :chartData="svo2Data" :options="chartOption" :height="chartHeight"></general-chart>
+            <general-chart :chartData="item8Data" :options="chartOption" :height="chartHeight"></general-chart>
           </el-col>
         </el-row>
 
-        <el-row v-if="isHct">
+        <el-row v-if="isItem9">
           <el-col :span="3">
-            <p>hct</p>
-            <p>{{ currentState.hct }}</p>
+            <p>{{ deviceItems[9].name }}</p>
+            <p>
+              <span>{{ currentState.item9 }}</span>
+              <span>{{ deviceItems[9].unit }}</span>
+            </p>
           </el-col>
           <el-col :span="21">
-            <general-chart :chartData="hctData" :options="chartOption" :height="chartHeight"></general-chart>
+            <general-chart :chartData="item9Data" :options="chartOption" :height="chartHeight"></general-chart>
           </el-col>
         </el-row>
       </el-col>
@@ -177,13 +207,14 @@ export default {
     ItemMaster
   },
   props: {
+    deviceItems: Array,
     cyclickData: Array,
     currentState: Object
   },
   methods: {
     onClickItemMaster() {
       this.fetchAllDevices();
-      this.itemMasterVisible = true
+      this.itemMasterVisible = true;
     },
     fetchAllDevices() {
       axios.get("api/find_all_devices").then(res => {
@@ -229,142 +260,142 @@ export default {
     }
   },
   computed: {
-    speedData: function() {
+    item0Data: function() {
       let result = this.createChartDataObj();
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["speedMax"]
+          y: this.cyclickData[i]["item0Max"]
         });
         result.datasets[1].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["speedMin"]
+          y: this.cyclickData[i]["item0Min"]
         });
       }
       return result;
     },
-    flowData: function() {
+    item1Data: function() {
       let result = this.createChartDataObj();
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["flowMax"]
+          y: this.cyclickData[i]["item1Max"]
         });
         result.datasets[1].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["flowMin"]
+          y: this.cyclickData[i]["item1Min"]
         });
       }
       return result;
     },
-    pvenData: function() {
+    item2Data: function() {
       let result = this.createChartDataObj();
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["pvenMax"]
+          y: this.cyclickData[i]["item2Max"]
         });
         result.datasets[1].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["pvenMin"]
+          y: this.cyclickData[i]["item2Min"]
         });
       }
       return result;
     },
-    pintData: function() {
+    item3Data: function() {
       let result = this.createChartDataObj();
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["pintMax"]
+          y: this.cyclickData[i]["item3Max"]
         });
         result.datasets[1].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["pintMin"]
+          y: this.cyclickData[i]["item3Min"]
         });
       }
       return result;
     },
-    deltapData: function() {
+    item4Data: function() {
       let result = this.createChartDataObj();
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["deltapMax"]
+          y: this.cyclickData[i]["item4Max"]
         });
         result.datasets[1].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["deltapMin"]
+          y: this.cyclickData[i]["item4Min"]
         });
       }
       return result;
     },
-    partData: function() {
+    item5Data: function() {
       let result = this.createChartDataObj();
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["partMax"]
+          y: this.cyclickData[i]["item5Max"]
         });
         result.datasets[1].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["partMin"]
+          y: this.cyclickData[i]["item5Min"]
         });
       }
       return result;
     },
-    tvenData: function() {
+    item6Data: function() {
       let result = this.createChartDataObj();
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["tvenMax"]
+          y: this.cyclickData[i]["item6Max"]
         });
         result.datasets[1].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["tvenMin"]
+          y: this.cyclickData[i]["item6Min"]
         });
       }
       return result;
     },
-    tartData: function() {
+    item7Data: function() {
       let result = this.createChartDataObj();
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["tartMax"]
+          y: this.cyclickData[i]["item7Max"]
         });
         result.datasets[1].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["tartMin"]
+          y: this.cyclickData[i]["item7Min"]
         });
       }
       return result;
     },
-    svo2Data: function() {
+    item8Data: function() {
       let result = this.createChartDataObj();
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["svo2Max"]
+          y: this.cyclickData[i]["item8Max"]
         });
         result.datasets[1].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["svo2Min"]
+          y: this.cyclickData[i]["item8Min"]
         });
       }
       return result;
     },
-    hctData: function() {
+    item9Data: function() {
       let result = this.createChartDataObj();
       for (let i = 0; i < this.cyclickData.length; i++) {
         result.datasets[0].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["hctMax"]
+          y: this.cyclickData[i]["item9Max"]
         });
         result.datasets[1].data.push({
           x: this.cyclickData[i]["datetime"],
-          y: this.cyclickData[i]["hctMin"]
+          y: this.cyclickData[i]["item9Min"]
         });
       }
       return result;
@@ -372,16 +403,16 @@ export default {
   },
   data() {
     return {
-      isSpeed: true,
-      isFlow: true,
-      isPven: true,
-      isPint: true,
-      isDeltap: true,
-      isPart: true,
-      isTven: true,
-      isTart: true,
-      isSvo2: true,
-      isHct: true,
+      isItem0: true,
+      isItem1: true,
+      isItem2: true,
+      isItem3: true,
+      isItem4: true,
+      isItem5: true,
+      isItem6: true,
+      isItem7: true,
+      isItem8: true,
+      isItem9: true,
       chartOption: {
         legend: {
           display: false
