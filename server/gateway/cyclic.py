@@ -45,7 +45,7 @@ def cyclic_add():
     data = request.json
     log_data = cyclic_data.Log_data()
 
-    deviceID = data['device_id']
+    deviceID = data['deviceID']
 
     device_items = device_item.find_by_deviceID(deviceID)
 
@@ -55,13 +55,13 @@ def cyclic_add():
             log_data.version = data[k]
         elif k == 'dt':
             log_data.dt = util.str_to_datetime_UTC(data[k])
-        elif k == 'device_id':
+        elif k == 'deviceID':
             log_data.device_id = data[k]
         else:
             columnID = ''
 
             for item in device_items:
-                if deviceID == item.device_id:
+                if k == item.device_item_id:
                     columnID = item.column_id
                     break
             

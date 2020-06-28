@@ -38,7 +38,7 @@ def asynchronous_add():
             log_data.category = data[k]
         elif k == 'name':
             log_data.name = data[k]
-        elif k == 'device_id':
+        elif k == 'deviceID':
             log_data.device_id = data[k]
 
     asynchronous_log.add(log_data)
