@@ -1,6 +1,7 @@
 from uuid import uuid4
 from datetime import datetime, timezone, timedelta
 from dateutil import parser
+import os
 
 from flask import request
 
@@ -33,8 +34,11 @@ def get_requested_selected_device():
     return d
 
 def get_requested_download_filename():
-    fname = request.args.get('filename', default='')
+    fname = request.args.get('fileName', default='')
     return fname
+
+def get_temp_dir_path():
+    return 'temp' + os.sep
 
 def accessed_browser():
 

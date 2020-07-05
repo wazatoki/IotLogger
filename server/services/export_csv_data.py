@@ -10,7 +10,7 @@ def output_asynchronous_data(asynchronous_log_data, device_items):
     remove_temp_dir()
 
     file_name = util.createUUID()
-    file_path  = get_temp_dir_path() + os.sep + file_name
+    file_path  = util.get_temp_dir_path() + file_name
     os_name = util.user_os()
     encoding = ''
     lineterminator = ''
@@ -42,7 +42,7 @@ def output_cyclic_data(cyclic_log_data, device_items):
     remove_temp_dir()
 
     file_name = util.createUUID()
-    file_path  = get_temp_dir_path() + os.sep + file_name
+    file_path  = util.get_temp_dir_path() + file_name
     os_name = util.user_os()
     encoding = ''
     lineterminator = ''
@@ -55,8 +55,8 @@ def output_cyclic_data(cyclic_log_data, device_items):
         lineterminator = '\n'
 
     try:
-        with open(file_path, 'w', encoding) as file:
-            writer = csv.writer(file, lineterminator)
+        with open(file_path, 'w', encoding=encoding) as csvfile:
+            writer = csv.writer(csvfile, lineterminator=lineterminator)
             create_cyclic_header(device_items, writer)
             create_cyclic_data(cyclic_log_data, device_items, writer)
 
@@ -65,7 +65,6 @@ def output_cyclic_data(cyclic_log_data, device_items):
         raise e
 
     finally:
-        file.close()
         return file_name
 
 def create_asynchronous_data(asynchronous_log_data, writer):
@@ -85,7 +84,7 @@ def create_cyclic_data(cyclic_log_data, device_items, writer):
         row = []
         log_dic = row_data.get_Data()
 
-        row.append(log_dic['datetime'])
+        row.append(log_dic['datetime'].strftime('%Y%m%d %H:%M:%S'))
 
         for item in device_items:
             
@@ -107,18 +106,14 @@ def create_cyclic_header(device_items, writer):
         
 def remove_temp_dir():
 
-    target_dir = get_temp_dir_path()
-    files = glob.glob(target_dir)
+    files = glob.glob(util.get_temp_dir_path() + '*')
     now = time.time()
 
     for f in files:
         st = os.stat(f)
         # １時間以上前に作成されたファイルを削除
-        if st < now - 3600:
+        if st.st_atime < (now - 3600):
             try:
                 os.remove(f)
             except OSError as e:
                 logging.info('can not remove file : ' + f)
-
-def get_temp_dir_path():
-    return '..' + os.sep + 'temp'

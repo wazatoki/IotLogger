@@ -52,7 +52,20 @@ export default {
     };
   },
   methods: {
-    getData() {},
+    getData() {
+      switch (this.selectedDataType) {
+        case "cyclic":
+          this.fetchCyclicData();
+          break;
+        case "asynchronous":
+          this.fetchAsynchronousData();
+          break;
+
+        default:
+          this.fetchCyclicData();
+          break;
+      }
+    },
     fetchAllDevices() {
       axios.get("api/find_all_devices").then(res => {
         if (res.data && res.data.length > 0) {
@@ -62,7 +75,7 @@ export default {
     },
     fetchAsynchronousData() {
       axios
-        .get("api/find_asynchronous_by_event_date", {
+        .get("api/asynchronous/csv/filename", {
           params: {
             from: this.fromDateTime,
             to: this.toDateTime,
@@ -70,12 +83,17 @@ export default {
           }
         })
         .then(res => {
-          this.$emit("asynchronous-data-fetched", res.data);
+          window.location.href =
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            "/api/asynchronous/csv/download?fileName=" +
+            res.data.fileName;
         });
     },
     fetchCyclicData() {
       axios
-        .get("api/find_asynchronous_by_event_date", {
+        .get("api/cyclic/csv/filename", {
           params: {
             from: this.fromDateTime,
             to: this.toDateTime,
@@ -83,7 +101,12 @@ export default {
           }
         })
         .then(res => {
-          this.$emit("asynchronous-data-fetched", res.data);
+          window.location.href =
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            "/api/cyclic/csv/download?fileName=" +
+            res.data.fileName;
         });
     }
   }

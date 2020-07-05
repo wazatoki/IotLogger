@@ -3,7 +3,7 @@ import datetime
 from pytz import timezone
 import random
 
-from flask import request, jsonify, send_file
+from flask import request, jsonify, make_response
 
 from infrastructure import flaskSetup
 from repositories import cyclic_log, device_item
@@ -18,10 +18,12 @@ def cyclic_csv_download():
     fname: str = util.get_requested_download_filename()
     now: datetime = datetime.datetime.now()
     download_fname: str = 'cyclic_data_{0:%Y%m%d%H%M%S}.csv'.format(now)
-    return send_file(os.path.join('../temp',fname),
-                     mimetype='text/csv',
-                     attachment_filename=download_fname,
-                     as_attachment=True)
+    temp_file_path: str = util.get_temp_dir_path() + fname
+    response = make_response()
+    response.data = open(temp_file_path, "rb").read()
+    response.headers['Content-Disposition'] = 'attachment; filename=' + download_fname
+    response.mimetype = 'text/csv'
+    return response
 
 @app.route(flaskSetup.url_prefix + 'cyclic/csv/filename', methods=['GET'])
 def cyclic_csv_filename():
