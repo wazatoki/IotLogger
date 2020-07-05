@@ -11,7 +11,7 @@ app = flaskSetup.app
 @app.route(flaskSetup.url_prefix + 'find_parsed_by_event_date', methods=['GET'])
 def find_parsed_by_event_date():
     f = util.get_requested_from_datetime()
-    t = util.get_requested_to_datetime()
+    t = util.get_requested_to_date()
     d = util.get_requested_selected_device()
     items = parsed_log.find_by_event_date(f, t, d)
     result_items = []

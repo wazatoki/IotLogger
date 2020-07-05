@@ -1,6 +1,11 @@
 <template>
   <div class="select-date">
-    <el-select v-model="selectedDevice" v-on:change="deviceSelected" placeholder="Device Select" class="device-select">
+    <el-select
+      v-model="selectedDevice"
+      v-on:change="deviceSelected"
+      placeholder="Device Select"
+      class="device-select"
+    >
       <el-option v-for="item in options" :key="item" :label="item" :value="item"></el-option>
     </el-select>
     <el-date-picker v-model="fromDate" type="date" placeholder="開始日"></el-date-picker>
@@ -17,21 +22,34 @@ export default {
   name: "SelectDate",
   mounted: function() {
     this.fetchAllDevices();
+    this.fromDate = this.getDefaultFromDate();
+    this.toDate = new Date();
   },
   data() {
     return {
       selectedDevice: "",
       options: [],
-      fromDate: this.getDefaultFromDate(),
-      toDate: new Date(),
+      fromDate: '',
+      toDate: '',
       parsedDataIntervalID: undefined,
       alertLogIntervalID: undefined,
       currentStateIntervalID: undefined
     };
   },
+  watch: {
+    selectedDevice: function(val) {
+      this.$emit("selected-device-changed", val);
+    },
+    fromDate: function(val) {
+      this.$emit("from-date-changed", val);
+    },
+    toDate: function(val) {
+      this.$emit("to-date-changed", val);
+    }
+  },
   methods: {
     deviceSelected() {
-      this.fetchDeviceItems()
+      this.fetchDeviceItems();
     },
     getDefaultFromDate() {
       let d;

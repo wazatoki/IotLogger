@@ -1,15 +1,41 @@
+import os
 import datetime
 from pytz import timezone
 import random
 
-from flask import request, jsonify
+from flask import request, jsonify, send_file
 
 from infrastructure import flaskSetup
 from repositories import cyclic_log, device_item
 from domain import cyclic_data
 from util import util
+from services import export_csv_data
 
 app = flaskSetup.app
+
+@app.route(flaskSetup.url_prefix + 'cyclic/csv/download', methods=['GET'])
+def cyclic_csv_download():
+    fname: str = util.get_requested_download_filename()
+    now: datetime = datetime.datetime.now()
+    download_fname: str = 'cyclic_data_{0:%Y%m%d%H%M%S}.csv'.format(now)
+    return send_file(os.path.join('../temp',fname),
+                     mimetype='text/csv',
+                     attachment_filename=download_fname,
+                     as_attachment=True)
+
+@app.route(flaskSetup.url_prefix + 'cyclic/csv/filename', methods=['GET'])
+def cyclic_csv_filename():
+    f = util.get_requested_from_datetime()
+    t = util.get_requested_to_datetime()
+    d = util.get_requested_selected_device()
+    items = cyclic_log.find_by_event_date(f, t, d)
+    for item in items:
+        item.dt = timezone('UTC').localize(item.dt).astimezone(timezone('Asia/Tokyo'))
+
+    devices = device_item.find_by_deviceID(d)
+    file_name = export_csv_data.output_cyclic_data(items, devices)
+
+    return jsonify({ "fileName": file_name })
 
 @app.route(flaskSetup.url_prefix + 'find_cyclic_current_state', methods=['GET'])
 def find_cyclic_current_state():
@@ -30,7 +56,7 @@ def find_cyclic_current_state():
 @app.route(flaskSetup.url_prefix + 'find_cyclic_by_event_date', methods=['GET'])
 def find_cyclic_by_event_date():
     f = util.get_requested_from_datetime()
-    t = util.get_requested_to_datetime()
+    t = util.get_requested_to_date()
     d = util.get_requested_selected_device()
     items = cyclic_log.find_by_event_date(f, t, d)
     result_items = []

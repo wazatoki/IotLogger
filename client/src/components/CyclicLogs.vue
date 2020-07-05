@@ -40,6 +40,9 @@
         <div class="master-maintenance-button">
           <span v-on:click="onClickItemMaster">item マスター</span>
         </div>
+        <div class="csv-download-button">
+          <span v-on:click="onClickCsvDownload">CSV ダウンロード</span>
+        </div>
       </el-col>
       <el-col :span="22">
         <el-row v-if="isItem0">
@@ -185,6 +188,12 @@
         <el-button @click="itemMasterVisible = false">Cancel</el-button>
       </span>
     </el-dialog>
+    <el-dialog title="CSV ダウンロード" :visible.sync="csvDownloadVisible" width="70%">
+      <csv-download :devices="devices" :device="device" :fromDate="fromDate" :toDate="toDate"></csv-download>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="csvDownloadVisible = false">Cancel</el-button>
+      </span>
+    </el-dialog>
     <el-dialog :visible.sync="noticeDialogVisible" width="40%">
       <span>{{ noticeMessage }}</span>
       <span slot="footer" class="dialog-footer">
@@ -199,19 +208,29 @@ import axios from "axios";
 import GeneralChart from "./charts/GeneralChart";
 import DeviceMaster from "./DeviceMaster";
 import ItemMaster from "./ItemMaster";
+import CsvDownload from './CsvDownload.vue';
+
 export default {
   name: "CyclicLogs",
   components: {
     GeneralChart,
     DeviceMaster,
-    ItemMaster
+    ItemMaster,
+    CsvDownload
   },
   props: {
     deviceItems: Array,
     cyclickData: Array,
-    currentState: Object
+    currentState: Object,
+    device: String,
+    fromDate: Date,
+    toDate: Date
   },
   methods: {
+    onClickCsvDownload() {
+      this.fetchAllDevices();
+      this.csvDownloadVisible = true;
+    },
     onClickItemMaster() {
       this.fetchAllDevices();
       this.itemMasterVisible = true;
@@ -437,6 +456,7 @@ export default {
       chartHeight: 80,
       deviceMasterVisible: false,
       itemMasterVisible: false,
+      csvDownloadVisible: false,
       devices: [],
       noticeDialogVisible: false,
       noticeMessage: ""
