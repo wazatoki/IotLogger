@@ -71,7 +71,7 @@ def create_asynchronous_data(asynchronous_log_data, writer):
 
     for row_data in asynchronous_log_data:
 
-        writer.writerow([row_data.dt, row_data.code, row_data.category , row_data.name])
+        writer.writerow([row_data.dt.strftime('%Y%m%d %H:%M:%S'), row_data.code, row_data.category , row_data.name])
 
 def create_asynchronous_header(writer):
 

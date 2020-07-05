@@ -1,7 +1,7 @@
 <template>
   <div class="cyclic-logs">
     <el-row>
-      <el-col :span="2">
+      <el-col :span="3">
         <div class="select-chart">
           <el-checkbox v-model="isItem0">{{ deviceItems[0].name }}</el-checkbox>
         </div>
@@ -44,7 +44,7 @@
           <span v-on:click="onClickCsvDownload">CSV ダウンロード</span>
         </div>
       </el-col>
-      <el-col :span="22">
+      <el-col :span="21">
         <el-row v-if="isItem0">
           <el-col :span="3">
             <p>{{ deviceItems[0].name }}</p>
@@ -467,7 +467,7 @@ export default {
 
 <style scoped>
 div.select-chart {
-  width: 5em;
+  width: 7em;
   float: left;
   text-align: left;
 }
@@ -476,7 +476,7 @@ div.clear {
   clear: both;
 }
 
-div.master-maintenance-button {
+div.master-maintenance-button, div.csv-download-button {
   margin-top: 3em;
 }
 </style>
