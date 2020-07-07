@@ -1,46 +1,98 @@
 <template>
   <div class="base-wrapper">
     <el-row>
-      <el-col :span="24">
-        <select-date
-          v-on:parsed-data-fetched="setCyclicData"
-          v-on:asynchronous-data-fetched="setAlertData"
-          v-on:current-state-fetched="setCurrentState"
-          v-on:device-items-fetched="setDeviceItems"
-          v-on:from-date-changed="fromDateChanged"
-          v-on:to-date-changed="toDateChanged"
-          v-on:selected-device-changed="selectedDeviceChanged"
-        ></select-date>
+      <el-col :span="2">
+        <chart-select v-bind:deviceItems="deviceItems"></chart-select>
+        <div class="clear"></div>
+        <div class="master-maintenance-button">
+          <span v-on:click="deviceMasterVisible = true">device マスター</span>
+        </div>
+        <div class="master-maintenance-button">
+          <span v-on:click="onClickItemMaster">item マスター</span>
+        </div>
+        <div class="csv-download-button">
+          <span v-on:click="onClickCsvDownload">CSV ダウンロード</span>
+        </div>
+      </el-col>
+      <el-col :span="22">
+        <el-row>
+          <el-col :span="24">
+            <select-date
+              v-bind:devices="devices"
+              v-on:parsed-data-fetched="setCyclicData"
+              v-on:asynchronous-data-fetched="setAlertData"
+              v-on:current-state-fetched="setCurrentState"
+              v-on:device-items-fetched="setDeviceItems"
+              v-on:from-date-changed="fromDateChanged"
+              v-on:to-date-changed="toDateChanged"
+              v-on:selected-device-changed="selectedDeviceChanged"
+            ></select-date>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="18">
+            <cyclic-logs
+              v-bind:device="selectedDevice"
+              v-bind:fromDate="fromDate"
+              v-bind:toDate="toDate"
+              v-bind:cyclickData="cyclickData"
+              v-bind:currentState="currentState"
+              v-bind:deviceItems="deviceItems"
+            ></cyclic-logs>
+          </el-col>
+          <el-col :span="6">
+            <alert-logs v-bind:alertData="alertData"></alert-logs>
+          </el-col>
+        </el-row>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="18">
-        <cyclic-logs
-          v-bind:device="selectedDevice"
-          v-bind:fromDate="fromDate"
-          v-bind:toDate="toDate"
-          v-bind:cyclickData="cyclickData"
-          v-bind:currentState="currentState"
-          v-bind:deviceItems="deviceItems"
-        ></cyclic-logs>
-      </el-col>
-      <el-col :span="6">
-        <alert-logs v-bind:alertData="alertData"></alert-logs>
-      </el-col>
-    </el-row>
+    <el-dialog title="device マスターメンテナンス" :visible.sync="deviceMasterVisible" width="40%">
+      <device-master v-on:device-data-saved="deviceDataSaved"></device-master>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="deviceMasterVisible = false">Cancel</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog title="item マスターメンテナンス" :visible.sync="itemMasterVisible" width="50%">
+      <item-master :devices="devices" v-on:device-item-data-saved="deviceItemDataSaved"></item-master>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="itemMasterVisible = false">Cancel</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog title="CSV ダウンロード" :visible.sync="csvDownloadVisible" width="70%">
+      <csv-download :devices="devices" :device="device" :fromDate="fromDate" :toDate="toDate"></csv-download>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="csvDownloadVisible = false">Cancel</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 import SelectDate from "./SelectDate";
 import AlertLogs from "./AlertLogs";
 import CyclicLogs from "./CyclicLogs";
+import ChartSelect from "./ChartSelect";
+import DeviceMaster from "./DeviceMaster";
+import ItemMaster from "./ItemMaster";
+import CsvDownload from "./CsvDownload.vue";
+
+import DeviceItem from "../domain/DeviceItem";
+
 export default {
   name: "BaseWrapper",
   components: {
     SelectDate,
     AlertLogs,
-    CyclicLogs
+    CyclicLogs,
+    ChartSelect,
+    DeviceMaster,
+    ItemMaster,
+    CsvDownload
+  },
+  mounted: function() {
+    this.fetchAllDevices();
   },
   data() {
     return {
@@ -48,12 +100,41 @@ export default {
       cyclickData: [],
       currentState: {},
       deviceItems: this.createDefaultDeviceItems(),
-      selectedDevice: '',
+      selectedDevice: "",
       fromDate: Date,
-      toDate: Date
+      toDate: Date,
+      deviceMasterVisible: false,
+      itemMasterVisible: false,
+      csvDownloadVisible: false
     };
   },
   methods: {
+    onClickCsvDownload() {
+      this.fetchAllDevices();
+      this.csvDownloadVisible = true;
+    },
+    onClickItemMaster() {
+      this.fetchAllDevices();
+      this.itemMasterVisible = true;
+    },
+    fetchAllDevices() {
+      axios.get("api/find_all_devices").then(res => {
+        if (res.data && res.data.length > 0) {
+          this.devices = res.data;
+        }
+      });
+    },
+    deviceDataSaved() {
+      this.fetchAllDevices();
+      this.deviceMasterVisible = false;
+      this.noticeMessage = "deviceデータの保存に成功しました。";
+      this.noticeDialogVisible = true;
+    },
+    deviceItemDataSaved() {
+      this.itemMasterVisible = false;
+      this.noticeMessage = "itemデータの保存に成功しました。";
+      this.noticeDialogVisible = true;
+    },
     selectedDeviceChanged(val) {
       this.selectedDevice = val;
     },
@@ -76,12 +157,17 @@ export default {
       this.currentState = data;
     },
     setDeviceItems(data) {
-      if(data){
-        this.deviceItems = data;
-      }else{
-        this.deviceItems = this.createDefaultDeviceItems();
-      }
-      
+      this.deviceItems = [];
+      data.forEach(item => {
+        const deviceItem = new DeviceItem(
+          item.id,
+          item.deviceID,
+          item.deviceItemID,
+          item.name,
+          item.unit
+        );
+        this.deviceItems.push(deviceItem);
+      });
     },
     createDefaultDeviceItems() {
       const items = [];
@@ -100,3 +186,20 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+div.select-chart {
+  width: 7em;
+  float: left;
+  text-align: left;
+}
+
+div.clear {
+  clear: both;
+}
+
+div.master-maintenance-button,
+div.csv-download-button {
+  margin-top: 3em;
+}
+</style>

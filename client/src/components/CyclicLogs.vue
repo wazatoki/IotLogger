@@ -1,51 +1,8 @@
 <template>
   <div class="cyclic-logs">
     <el-row>
-      <el-col :span="3">
-        <div class="select-chart">
-          <el-checkbox v-model="isItem0">{{ deviceItems[0].name }}</el-checkbox>
-        </div>
-        <div class="select-chart">
-          <el-checkbox v-model="isItem1">{{ deviceItems[1].name }}</el-checkbox>
-        </div>
-        <div class="select-chart">
-          <el-checkbox v-model="isItem2">{{ deviceItems[2].name }}</el-checkbox>
-        </div>
-        <div class="select-chart">
-          <el-checkbox v-model="isItem3">{{ deviceItems[3].name }}</el-checkbox>
-        </div>
-        <div class="select-chart">
-          <el-checkbox v-model="isItem4">{{ deviceItems[4].name }}</el-checkbox>
-        </div>
-        <div class="select-chart">
-          <el-checkbox v-model="isItem5">{{ deviceItems[5].name }}</el-checkbox>
-        </div>
-        <div class="select-chart">
-          <el-checkbox v-model="isItem6">{{ deviceItems[6].name }}</el-checkbox>
-        </div>
-        <div class="select-chart">
-          <el-checkbox v-model="isItem7">{{ deviceItems[7].name }}</el-checkbox>
-        </div>
-        <div class="select-chart">
-          <el-checkbox v-model="isItem8">{{ deviceItems[8].name }}</el-checkbox>
-        </div>
-        <div class="select-chart">
-          <el-checkbox v-model="isItem9">{{ deviceItems[9].name }}</el-checkbox>
-        </div>
-        <div class="clear"></div>
-
-        <div class="master-maintenance-button">
-          <span v-on:click="deviceMasterVisible = true">device マスター</span>
-        </div>
-        <div class="master-maintenance-button">
-          <span v-on:click="onClickItemMaster">item マスター</span>
-        </div>
-        <div class="csv-download-button">
-          <span v-on:click="onClickCsvDownload">CSV ダウンロード</span>
-        </div>
-      </el-col>
-      <el-col :span="21">
-        <el-row v-if="isItem0">
+      <el-col :span="24">
+        <el-row v-if="deviceItems[0].isVisible">
           <el-col :span="3">
             <p>{{ deviceItems[0].name }}</p>
             <p>
@@ -58,7 +15,7 @@
           </el-col>
         </el-row>
 
-        <el-row v-if="isItem1">
+        <el-row v-if="deviceItems[1].isVisible">
           <el-col :span="3">
             <p>{{ deviceItems[1].name }}</p>
             <p>
@@ -71,7 +28,7 @@
           </el-col>
         </el-row>
 
-        <el-row v-if="isItem2">
+        <el-row v-if="deviceItems[2].isVisible">
           <el-col :span="3">
             <p>{{ deviceItems[2].name }}</p>
             <p>
@@ -84,7 +41,7 @@
           </el-col>
         </el-row>
 
-        <el-row v-if="isItem3">
+        <el-row v-if="deviceItems[3].isVisible">
           <el-col :span="3">
             <p>{{ deviceItems[3].name }}</p>
             <p>
@@ -97,7 +54,7 @@
           </el-col>
         </el-row>
 
-        <el-row v-if="isItem4">
+        <el-row v-if="deviceItems[4].isVisible">
           <el-col :span="3">
             <p>{{ deviceItems[4].name }}</p>
             <p>
@@ -110,7 +67,7 @@
           </el-col>
         </el-row>
 
-        <el-row v-if="isItem5">
+        <el-row v-if="deviceItems[5].isVisible">
           <el-col :span="3">
             <p>{{ deviceItems[5].name }}</p>
             <p>
@@ -123,7 +80,7 @@
           </el-col>
         </el-row>
 
-        <el-row v-if="isItem6">
+        <el-row v-if="deviceItems[6].isVisible">
           <el-col :span="3">
             <p>{{ deviceItems[6].name }}</p>
             <p>
@@ -136,7 +93,7 @@
           </el-col>
         </el-row>
 
-        <el-row v-if="isItem7">
+        <el-row v-if="deviceItems[7].isVisible">
           <el-col :span="3">
             <p>{{ deviceItems[7].name }}</p>
             <p>
@@ -149,7 +106,7 @@
           </el-col>
         </el-row>
 
-        <el-row v-if="isItem8">
+        <el-row v-if="deviceItems[8].isVisible">
           <el-col :span="3">
             <p>{{ deviceItems[8].name }}</p>
             <p>
@@ -162,7 +119,7 @@
           </el-col>
         </el-row>
 
-        <el-row v-if="isItem9">
+        <el-row v-if="deviceItems[9].isVisible">
           <el-col :span="3">
             <p>{{ deviceItems[9].name }}</p>
             <p>
@@ -176,24 +133,6 @@
         </el-row>
       </el-col>
     </el-row>
-    <el-dialog title="device マスターメンテナンス" :visible.sync="deviceMasterVisible" width="40%">
-      <device-master v-on:device-data-saved="deviceDataSaved"></device-master>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="deviceMasterVisible = false">Cancel</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog title="item マスターメンテナンス" :visible.sync="itemMasterVisible" width="50%">
-      <item-master :devices="devices" v-on:device-item-data-saved="deviceItemDataSaved"></item-master>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="itemMasterVisible = false">Cancel</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog title="CSV ダウンロード" :visible.sync="csvDownloadVisible" width="70%">
-      <csv-download :devices="devices" :device="device" :fromDate="fromDate" :toDate="toDate"></csv-download>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="csvDownloadVisible = false">Cancel</el-button>
-      </span>
-    </el-dialog>
     <el-dialog :visible.sync="noticeDialogVisible" width="40%">
       <span>{{ noticeMessage }}</span>
       <span slot="footer" class="dialog-footer">
@@ -204,19 +143,12 @@
 </template>
 
 <script>
-import axios from "axios";
 import GeneralChart from "./charts/GeneralChart";
-import DeviceMaster from "./DeviceMaster";
-import ItemMaster from "./ItemMaster";
-import CsvDownload from './CsvDownload.vue';
 
 export default {
   name: "CyclicLogs",
   components: {
     GeneralChart,
-    DeviceMaster,
-    ItemMaster,
-    CsvDownload
   },
   props: {
     deviceItems: Array,
@@ -227,32 +159,6 @@ export default {
     toDate: Date
   },
   methods: {
-    onClickCsvDownload() {
-      this.fetchAllDevices();
-      this.csvDownloadVisible = true;
-    },
-    onClickItemMaster() {
-      this.fetchAllDevices();
-      this.itemMasterVisible = true;
-    },
-    fetchAllDevices() {
-      axios.get("api/find_all_devices").then(res => {
-        if (res.data && res.data.length > 0) {
-          this.devices = res.data;
-        }
-      });
-    },
-    deviceDataSaved() {
-      this.fetchAllDevices();
-      this.deviceMasterVisible = false;
-      this.noticeMessage = "deviceデータの保存に成功しました。";
-      this.noticeDialogVisible = true;
-    },
-    deviceItemDataSaved() {
-      this.itemMasterVisible = false;
-      this.noticeMessage = "itemデータの保存に成功しました。";
-      this.noticeDialogVisible = true;
-    },
     createChartDataObj() {
       return {
         datasets: [
@@ -454,9 +360,6 @@ export default {
         animation: false
       },
       chartHeight: 80,
-      deviceMasterVisible: false,
-      itemMasterVisible: false,
-      csvDownloadVisible: false,
       devices: [],
       noticeDialogVisible: false,
       noticeMessage: ""

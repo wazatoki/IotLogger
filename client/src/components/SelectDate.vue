@@ -21,20 +21,26 @@ import axios from "axios";
 export default {
   name: "SelectDate",
   mounted: function() {
-    this.fetchAllDevices();
     this.fromDate = this.getDefaultFromDate();
     this.toDate = new Date();
+  },
+  props: {
+    devices: Array
   },
   data() {
     return {
       selectedDevice: "",
-      options: [],
-      fromDate: '',
-      toDate: '',
+      fromDate: "",
+      toDate: "",
       parsedDataIntervalID: undefined,
       alertLogIntervalID: undefined,
       currentStateIntervalID: undefined
     };
+  },
+  computed: {
+    options: function() {
+      return this.devices;
+    }
   },
   watch: {
     selectedDevice: function(val) {
