@@ -328,16 +328,6 @@ export default {
   },
   data() {
     return {
-      isItem0: true,
-      isItem1: true,
-      isItem2: true,
-      isItem3: true,
-      isItem4: true,
-      isItem5: true,
-      isItem6: true,
-      isItem7: true,
-      isItem8: true,
-      isItem9: true,
       chartOption: {
         legend: {
           display: false
