@@ -4,6 +4,11 @@
       <el-col :span="24">
         <el-row v-if="deviceItems[0].isVisible">
           <el-col :span="3">
+            <p>{{ currentStateDateTime }}</p>
+          </el-col>
+        </el-row>
+        <el-row v-if="deviceItems[0].isVisible">
+          <el-col :span="3">
             <p>{{ deviceItems[0].name }}</p>
             <p>
               <span>{{ currentState.item0 }}</span>
@@ -148,7 +153,7 @@ import GeneralChart from "./charts/GeneralChart";
 export default {
   name: "CyclicLogs",
   components: {
-    GeneralChart,
+    GeneralChart
   },
   props: {
     deviceItems: Array,
@@ -185,6 +190,33 @@ export default {
     }
   },
   computed: {
+    currentStateDateTime: function() {
+      const d = Date.parse(this.currentState.datetime);
+      if (!isNaN(d)) {
+        const dt = new Date(d);
+        const year = dt.getFullYear();
+        const month = dt.getMonth();
+        const day = dt.getDate();
+        const hours = dt.getHours();
+        const minutes = dt.getMinutes();
+        const seconds = dt.getSeconds();
+        return (
+          year +
+          "/" +
+          month +
+          "/" +
+          day +
+          " " +
+          hours +
+          ":" +
+          minutes +
+          ":" +
+          seconds
+        );
+      } else {
+        return "0/0/0 0:0:0";
+      }
+    },
     item0Data: function() {
       let result = this.createChartDataObj();
       for (let i = 0; i < this.cyclickData.length; i++) {
@@ -369,7 +401,8 @@ div.clear {
   clear: both;
 }
 
-div.master-maintenance-button, div.csv-download-button {
+div.master-maintenance-button,
+div.csv-download-button {
   margin-top: 3em;
 }
 </style>

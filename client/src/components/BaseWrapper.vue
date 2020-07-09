@@ -103,6 +103,7 @@ export default {
       selectedDevice: "",
       fromDate: Date,
       toDate: Date,
+      devices: [],
       deviceMasterVisible: false,
       itemMasterVisible: false,
       csvDownloadVisible: false

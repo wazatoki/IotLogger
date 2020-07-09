@@ -6,7 +6,7 @@
       placeholder="Device Select"
       class="device-select"
     >
-      <el-option v-for="item in options" :key="item" :label="item" :value="item"></el-option>
+      <el-option v-for="item in devices" :key="item" :label="item" :value="item"></el-option>
     </el-select>
     <el-date-picker v-model="fromDate" type="date" placeholder="開始日"></el-date-picker>
     <span>〜</span>
@@ -36,11 +36,6 @@ export default {
       alertLogIntervalID: undefined,
       currentStateIntervalID: undefined
     };
-  },
-  computed: {
-    options: function() {
-      return this.devices;
-    }
   },
   watch: {
     selectedDevice: function(val) {
