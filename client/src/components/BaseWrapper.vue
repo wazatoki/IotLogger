@@ -58,7 +58,7 @@
       </span>
     </el-dialog>
     <el-dialog title="CSV ダウンロード" :visible.sync="csvDownloadVisible" width="70%">
-      <csv-download :devices="devices" :device="device" :fromDate="fromDate" :toDate="toDate"></csv-download>
+      <csv-download :devices="devices" :device="selectedDevice" :fromDate="fromDate" :toDate="toDate"></csv-download>
       <span slot="footer" class="dialog-footer">
         <el-button @click="csvDownloadVisible = false">Cancel</el-button>
       </span>
@@ -178,7 +178,9 @@ export default {
           item.name,
           item.unit
         );
-        this.deviceItems.push(deviceItem);
+        if (deviceItem.device_item_id) {
+          this.deviceItems.push(deviceItem);
+        }
       });
     },
     createDefaultDeviceItems() {
