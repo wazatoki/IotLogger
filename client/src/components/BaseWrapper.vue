@@ -22,7 +22,6 @@
               v-on:parsed-data-fetched="setCyclicData"
               v-on:asynchronous-data-fetched="setAlertData"
               v-on:current-state-fetched="setCurrentState"
-              v-on:device-items-fetched="setDeviceItems"
               v-on:from-date-changed="fromDateChanged"
               v-on:to-date-changed="toDateChanged"
               v-on:selected-device-changed="selectedDeviceChanged"
@@ -110,6 +109,17 @@ export default {
     };
   },
   methods: {
+    fetchDeviceItems() {
+      axios
+        .get("api/find_device_items_by_deviceID", {
+          params: {
+            selectedDevice: this.selectedDevice
+          }
+        })
+        .then(res => {
+          this.setDeviceItems(res.data);
+        });
+    },
     onClickCsvDownload() {
       this.fetchAllDevices();
       this.csvDownloadVisible = true;
@@ -138,6 +148,7 @@ export default {
     },
     selectedDeviceChanged(val) {
       this.selectedDevice = val;
+      this.fetchDeviceItems();
     },
     fromDateChanged(val) {
       this.fromDate = val;

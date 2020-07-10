@@ -8,9 +8,9 @@
     >
       <el-option v-for="item in devices" :key="item" :label="item" :value="item"></el-option>
     </el-select>
-    <el-date-picker v-model="fromDate" type="date" placeholder="開始日"></el-date-picker>
+    <el-date-picker v-model="fromDate" v-on:change="fromDateChanged" type="date" placeholder="開始日"></el-date-picker>
     <span>〜</span>
-    <el-date-picker v-model="toDate" type="date" placeholder="終了日"></el-date-picker>
+    <el-date-picker v-model="toDate" v-on:change="toDateChanged" type="date" placeholder="終了日"></el-date-picker>
     <el-button type="primary" v-on:click="getData">データ取得</el-button>
   </div>
 </template>
@@ -21,8 +21,8 @@ import axios from "axios";
 export default {
   name: "SelectDate",
   mounted: function() {
-    this.fromDate = this.getDefaultFromDate();
-    this.toDate = new Date();
+    this.fromDateChanged();
+    this.toDateChanged();
   },
   props: {
     devices: Array
@@ -30,27 +30,22 @@ export default {
   data() {
     return {
       selectedDevice: "",
-      fromDate: "",
-      toDate: "",
+      fromDate: this.getDefaultFromDate(),
+      toDate: new Date(),
       parsedDataIntervalID: undefined,
       alertLogIntervalID: undefined,
       currentStateIntervalID: undefined
     };
   },
-  watch: {
-    selectedDevice: function(val) {
-      this.$emit("selected-device-changed", val);
-    },
-    fromDate: function(val) {
-      this.$emit("from-date-changed", val);
-    },
-    toDate: function(val) {
-      this.$emit("to-date-changed", val);
-    }
-  },
   methods: {
+    fromDateChanged(){
+      this.$emit("from-date-changed", this.fromDate);
+    },
+    toDateChanged(){
+      this.$emit("to-date-changed", this.toDate);
+    },
     deviceSelected() {
-      this.fetchDeviceItems();
+      this.$emit("selected-device-changed", this.selectedDevice);
     },
     getDefaultFromDate() {
       let d;
@@ -86,13 +81,6 @@ export default {
         clearInterval(this.alertLogIntervalID);
         clearInterval(this.currentStateIntervalID);
       }
-    },
-    fetchAllDevices() {
-      axios.get("api/find_all_devices").then(res => {
-        if (res.data && res.data.length > 0) {
-          this.options = res.data;
-        }
-      });
     },
     fetchParcedData() {
       axios
@@ -131,17 +119,6 @@ export default {
           this.$emit("current-state-fetched", res.data);
         });
     },
-    fetchDeviceItems() {
-      axios
-        .get("api/find_device_items_by_deviceID", {
-          params: {
-            selectedDevice: this.selectedDevice
-          }
-        })
-        .then(res => {
-          this.$emit("device-items-fetched", res.data);
-        });
-    }
   }
 };
 </script>
