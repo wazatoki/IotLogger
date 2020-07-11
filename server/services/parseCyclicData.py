@@ -1,4 +1,5 @@
 import datetime
+from pytz import timezone
 
 from repositories import parsed_log, cyclic_log, device
 from domain import parsed_data
@@ -7,7 +8,7 @@ INTERVAL_MINUTE = 5
 
 def add_parsd_data():
 
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(timezone('UTC'))
 
     device_ids = device.find_all_IDs()
 
@@ -17,7 +18,8 @@ def add_parsd_data():
         
         if base_date != None:
 
-            fdt = get_from_datetime(base_date.dt)
+            utc_dt = timezone('UTC').localize(base_date.dt)
+            fdt = get_from_datetime(utc_dt)
             tdt = get_to_datetime(fdt)
             if tdt < now :
                 logs = cyclic_log.find_by_event_date(fdt, tdt, device_id)
