@@ -59,7 +59,7 @@ def asynchronous_add():
 
         if k == 'version':
             log_data.version = data[k]
-        elif k == 'dt':
+        elif k == 'datetime':
             log_data.dt = util.str_to_datetime_UTC(data[k])
         elif k == 'code':
             log_data.code = data[k]
