@@ -38,10 +38,10 @@ export default {
     };
   },
   methods: {
-    fromDateChanged(){
+    fromDateChanged() {
       this.$emit("from-date-changed", this.fromDate);
     },
-    toDateChanged(){
+    toDateChanged() {
       this.$emit("to-date-changed", this.toDate);
     },
     deviceSelected() {
@@ -54,6 +54,15 @@ export default {
       return d;
     },
     getData() {
+      if (this.parsedDataIntervalID) {
+        clearInterval(this.parsedDataIntervalID);
+      }
+      if (this.alertLogIntervalID) {
+        clearInterval(this.alertLogIntervalID);
+      }
+      if (this.currentStateIntervalID) {
+        clearInterval(this.currentStateIntervalID);
+      }
       this.fetchParcedData();
       this.fetchAsynchronousData();
       this.fetchCurrentState();
@@ -118,7 +127,7 @@ export default {
         .then(res => {
           this.$emit("current-state-fetched", res.data);
         });
-    },
+    }
   }
 };
 </script>
