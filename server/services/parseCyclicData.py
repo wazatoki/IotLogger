@@ -19,9 +19,6 @@ def add_parsd_data():
 
             fdt = get_from_datetime(base_date.dt)
             tdt = get_to_datetime(fdt)
-            print(now)
-            print(fdt)
-            print(tdt)
             if tdt < now :
                 logs = cyclic_log.find_by_event_date(fdt, tdt, device_id)
 
