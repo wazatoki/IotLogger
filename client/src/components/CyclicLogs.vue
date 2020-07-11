@@ -13,7 +13,7 @@
             <el-col :span="3">
               <p>{{ data.deviceItem.name }}</p>
               <p>
-                <span>{{ currentState['item'+index] }}</span>
+                <span class="current-state">{{ currentState['item'+index] }}</span>
                 <span>{{ data.deviceItem.unit }}</span>
               </p>
             </el-col>
@@ -170,5 +170,9 @@ div.clear {
 div.master-maintenance-button,
 div.csv-download-button {
   margin-top: 3em;
+}
+
+span.current-state {
+  font-size: x-large;
 }
 </style>

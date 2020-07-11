@@ -29,7 +29,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="18">
+          <el-col :span="17">
             <cyclic-logs
               v-bind:device="selectedDevice"
               v-bind:fromDate="fromDate"
@@ -39,7 +39,7 @@
               v-bind:deviceItems="deviceItems"
             ></cyclic-logs>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="7">
             <alert-logs v-bind:alertData="alertData"></alert-logs>
           </el-col>
         </el-row>
