@@ -20,7 +20,7 @@ export default {
       if (!isNaN(d)) {
         const dt = new Date(d);
         const year = dt.getFullYear();
-        const month = dt.getMonth();
+        const month = dt.getMonth() + 1;
         const day = dt.getDate();
         const hours = dt.getHours();
         const minutes = dt.getMinutes();
