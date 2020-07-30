@@ -33,9 +33,7 @@ def asynchronous_csv_filename():
     for item in items:
         item.dt = timezone('UTC').localize(item.dt).astimezone(timezone('Asia/Tokyo'))
 
-    devices = device_item.find_by_deviceID(d)
-    file_name = export_csv_data.output_asynchronous_data(items, devices)
-
+    file_name = export_csv_data.output_asynchronous_data(items)
     return jsonify({ "fileName": file_name })
 
 @app.route(flaskSetup.url_prefix + 'find_asynchronous_by_event_date', methods=['GET'])

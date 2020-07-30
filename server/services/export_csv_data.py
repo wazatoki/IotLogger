@@ -5,7 +5,7 @@ from util import util
 import csv
 import logging
 
-def output_asynchronous_data(asynchronous_log_data, device_items):
+def output_asynchronous_data(asynchronous_log_data):
 
     remove_temp_dir()
 
@@ -21,10 +21,9 @@ def output_asynchronous_data(asynchronous_log_data, device_items):
     else:
         encoding = 'utf-8'
         lineterminator = '\n'
-
     try:
-        with open(file_path, 'w', encoding) as file:
-            writer = csv.writer(file, lineterminator)
+        with open(file_path, 'w', encoding=encoding) as csvfile:
+            writer = csv.writer(csvfile, lineterminator=lineterminator)
             create_asynchronous_header(writer)
             create_asynchronous_data(asynchronous_log_data, writer)
 
@@ -33,7 +32,6 @@ def output_asynchronous_data(asynchronous_log_data, device_items):
         raise e
 
     finally:
-        file.close()
         return file_name
 
 
@@ -70,7 +68,6 @@ def output_cyclic_data(cyclic_log_data, device_items):
 def create_asynchronous_data(asynchronous_log_data, writer):
 
     for row_data in asynchronous_log_data:
-
         writer.writerow([row_data.dt.strftime('%Y/%m/%d %H:%M:%S'), row_data.code, row_data.category , row_data.name])
 
 def create_asynchronous_header(writer):
@@ -84,7 +81,7 @@ def create_cyclic_data(cyclic_log_data, device_items, writer):
         row = []
         log_dic = row_data.get_Data()
 
-        row.append(log_dic['datetime'].strftime('%Y%m%d %H:%M:%S'))
+        row.append(log_dic['datetime'].strftime('%Y/%m/%d %H:%M:%S'))
 
         for item in device_items:
             
