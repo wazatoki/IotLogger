@@ -18,6 +18,7 @@ class AsynchronousLog(db.Model):
     event_code = db.Column(db.String, nullable=False, default='0000')
     event_category = db.Column(db.String, nullable=False, default='0000')
     event_name = db.Column(db.String, nullable=False, default='0000')
+    event_type = db.Column(db.String, nullable=False, default='info')
     device_id = db.Column(db.String, nullable=False, default='0000')
 
 def map_to_entity(a: tp.Type[asynchronous.Log_data]):
@@ -26,6 +27,7 @@ def map_to_entity(a: tp.Type[asynchronous.Log_data]):
     log.event_code = a.code
     log.event_category = a.category
     log.event_name = a.name
+    log.event_type = a.message_type
     log.device_id = a.device_id
     return log
 
@@ -35,6 +37,7 @@ def map_to_object(a: tp.Type[AsynchronousLog]):
     data.code = a.event_code
     data.category = a.event_category
     data.name = a.event_name
+    data.message_type = a.event_type
     data.device_id = a.device_id
     return data
 

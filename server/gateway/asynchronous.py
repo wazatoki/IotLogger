@@ -65,6 +65,8 @@ def asynchronous_add():
             log_data.category = data[k]
         elif k == 'name':
             log_data.name = data[k]
+        elif k == 'messageType':
+            log_data.message_type = data[k]
         elif k == 'deviceID':
             log_data.device_id = data[k]
 
