@@ -18,3 +18,6 @@ configparser = "*"
 
 [requires]
 python_version = "3.8"
+
+[scripts]
+start = "python ./app.py"
