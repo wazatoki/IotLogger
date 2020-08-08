@@ -21,3 +21,6 @@ python_version = "3.8"
 
 [scripts]
 start = "python ./app.py"
+initDB = "flask db init"
+migrateDB = "flask db migrate"
+upgradeDB = "flask db upgrade"
