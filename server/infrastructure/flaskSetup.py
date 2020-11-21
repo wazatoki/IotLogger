@@ -9,7 +9,7 @@ from flask_migrate import Migrate
 url_prefix = "/api/"
 
 class Config(object):
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///../db/ecmoMonitor.sqlite'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///../db/IotLogger.sqlite'
     SECRET_KEY = os.environ.get("SECRET_KEY") or "super-secret-key"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = False
