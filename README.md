@@ -36,15 +36,24 @@ The received data is recorded in a database and can also be downloaded as a CSV 
 
 ## Usage
 
-start server
+1. start server
 
-in default server listen 8888 port.
+    in default server listen 8888 port.
 
-If you want change, reference config.ini file and rewrite.
+    If you want change, reference config.ini file and rewrite.
 
-```
-pipenv run start
-```
+    ```
+    pipenv run start
+    ```
+1. add device definition
+
+    click device マスター link and sen data.
+
+1. add item definitions
+
+    click item マスター link and sen data.
+
+1. select device, from date and to date. next click データ取得 button.
 
 
 
