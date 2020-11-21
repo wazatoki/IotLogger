@@ -55,6 +55,21 @@ The received data is recorded in a database and can also be downloaded as a CSV 
 
 1. select device, from date and to date. next click データ取得 button.
 
+## REST API
+
+### cyclic data
+
+|url|method|format|description|
+|----|----|----|----|
+|cyclic/add|POST|JSON|{"version": number, "datetime": UTC, "deviceID": string, "item_id_1": number, "item_id_2": number,...}|
+
+item_id_1,item_id_2... are defined item_id
+
+### asynchronous data
+
+|url|method|format|description|
+|----|----|----|----|
+|asynchronous/add|POST|JSON|{"version": number, "datetime": UTC, "deviceID": string, "code": string, "category": string,  "name": string, "messageType": string}|
 
 
 ## Licence
