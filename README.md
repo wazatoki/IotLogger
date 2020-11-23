@@ -17,7 +17,8 @@ The received data is recorded in a database and can also be downloaded as a CSV 
     cd server dir and execute next commands.
 
     ```
-    $ pipenv install
+    $ pipenv lock --clear
+    $ pipenv sync
     ```
 
 1. setup database
@@ -31,7 +32,8 @@ The received data is recorded in a database and can also be downloaded as a CSV 
     cd client dir and execute next commands.
 
     ```
-    $ nodenv install
+    $ npm install
+    $ npm run build
     ```
 
 ## Usage
