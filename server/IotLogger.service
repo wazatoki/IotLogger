@@ -1,0 +1,13 @@
+[Unit]
+Description = systemd setteing for IotLogger server
+After=network-online.target
+ConditionPathExists=/opt/IotLogger/server
+
+[Service]
+ExecStart=/opt/IotLogger/server/start.sh
+Restart=no
+Type=simple
+
+
+[Install]
+WantedBy=multi-user.target
