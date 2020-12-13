@@ -118,3 +118,6 @@ def find_by_event_date(f, t, device_id):
         objects.append(o)
     
     return objects
+
+def delete_by_event_date(f, t, device_id):
+    CyclicLog.query.filter(and_(CyclicLog.event_date >= f, CyclicLog.event_date <= t, CyclicLog.device_id == device_id )).delete()

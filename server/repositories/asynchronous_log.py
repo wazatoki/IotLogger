@@ -68,3 +68,7 @@ def find_by_event_date(f, t, device_id):
         objects.append(o)
     
     return objects
+
+def delete_by_event_date(f, t, device_id):
+    AsynchronousLog.query.filter(and_(AsynchronousLog.event_date >= f, AsynchronousLog.event_date <= t, AsynchronousLog.device_id == device_id )).delete()
+    

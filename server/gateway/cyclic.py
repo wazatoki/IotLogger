@@ -6,12 +6,22 @@ import random
 from flask import request, jsonify, make_response
 
 from infrastructure import flaskSetup
-from repositories import cyclic_log, device_item
+from repositories import cyclic_log, device_item, parsed_log
 from domain import cyclic_data
 from util import util
 from services import export_csv_data
 
 app = flaskSetup.app
+
+@app.route(flaskSetup.url_prefix + 'cyclic/delete', methods=['DELETE'])
+def cyclic_delete():
+    f = util.get_requested_from_datetime()
+    t = util.get_requested_to_datetime()
+    d = util.get_requested_selected_device()
+    
+    cyclic_log.delete_by_event_date(f, t, d)
+    parsed_log.delete_by_event_date(f, t, d)
+    return jsonify({ "result": True })
 
 @app.route(flaskSetup.url_prefix + 'cyclic/csv/download', methods=['GET'])
 def cyclic_csv_download():
@@ -30,6 +40,9 @@ def cyclic_csv_filename():
     f = util.get_requested_from_datetime()
     t = util.get_requested_to_datetime()
     d = util.get_requested_selected_device()
+    print(f)
+    print(t)
+    print(d)
     items = cyclic_log.find_by_event_date(f, t, d)
     for item in items:
         item.dt = timezone('UTC').localize(item.dt).astimezone(timezone('Asia/Tokyo'))

@@ -12,6 +12,15 @@ from services import export_csv_data
 
 app = flaskSetup.app
 
+@app.route(flaskSetup.url_prefix + 'asynchronous/delete', methods=['DELETE'])
+def asynchronous_delete():
+    f = util.get_requested_from_datetime()
+    t = util.get_requested_to_datetime()
+    d = util.get_requested_selected_device()
+    asynchronous_log.delete_by_event_date(f, t, d)
+    
+    return jsonify({ "result": True })
+
 @app.route(flaskSetup.url_prefix + 'asynchronous/csv/download', methods=['GET'])
 def asynchronous_csv_download():
     fname: str = util.get_requested_download_filename()

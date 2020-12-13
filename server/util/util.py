@@ -16,25 +16,43 @@ def str_to_datetime_UTC(str_date):
     return t
 
 def get_requested_from_datetime():
-    f = str_to_datetime_UTC(request.args.get('from', default='1900-01-01T00:00:00.000Z'))
+    if request.method == 'GET':
+        f = str_to_datetime_UTC(request.args.get('from', default='1900-01-01T00:00:00.000Z'))
+    else:
+        f = str_to_datetime_UTC(request.json['from'])
     return f
 
 def get_requested_to_datetime():
-    t = str_to_datetime_UTC(request.args.get('to', default='1900-01-01T00:00:00.000Z'))
+    if request.method == 'GET':
+        t = str_to_datetime_UTC(request.args.get('to', default='1900-01-01T00:00:00.000Z'))
+    else:
+        t = str_to_datetime_UTC(request.json['to'])
     return t
 
 def get_requested_to_date():
-    t = str_to_datetime_UTC(request.args.get('to', default='2100-12-31T00:00:00.000Z'))
+    if request.method == 'GET':
+        t = str_to_datetime_UTC(request.args.get('to', default='2100-12-31T00:00:00.000Z'))
+    else:
+        t = str_to_datetime_UTC(request.json['to'])
+    
     t = t + timedelta(days = 1)
     t = t - timedelta(microseconds = 1)
     return t
 
 def get_requested_selected_device():
-    d = request.args.get('selectedDevice', default='')
+    if request.method == 'GET':
+        d = request.args.get('selectedDevice', default='')
+    else:
+        d = request.json['selectedDevice']
+        
     return d
 
 def get_requested_download_filename():
-    fname = request.args.get('fileName', default='')
+    if request.method == 'GET':
+        fname = request.args.get('fileName', default='')
+    else:
+        fname = request.json['fileName']
+
     return fname
 
 def get_temp_dir_path():
