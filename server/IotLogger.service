@@ -4,7 +4,10 @@ After=network-online.target
 ConditionPathExists=/opt/IotLogger/server
 
 [Service]
-ExecStart=/opt/IotLogger/server/start.sh
+WorkingDirectory=/home/pi/app/IotLogger/server/
+ExecStart=/home/pi/app/IotLogger/server/start.sh
+User=pi
+Group=pi
 Restart=no
 Type=simple
 
