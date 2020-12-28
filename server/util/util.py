@@ -11,9 +11,16 @@ def createUUID():
     return str(uuid4())+datetime.now().strftime('%Y%m%d%H%M%S%f')
 
 def str_to_datetime_UTC(str_date):
+    
     UTC = timezone(timedelta(hours=+0), 'UTC')
-    t = parser.parse(str_date).astimezone(UTC)
-    return t
+
+    if str_date == "":
+
+        return datetime.now().astimezone(UTC)
+
+    else:
+        t = parser.parse(str_date).astimezone(UTC)
+        return t
 
 def get_requested_from_datetime():
     if request.method == 'GET':
