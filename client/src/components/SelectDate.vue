@@ -71,7 +71,7 @@ export default {
       this.fetchParcedData();
       this.fetchAsynchronousData();
       this.fetchCurrentState();
-      fetchDeviceMessage();
+      this.fetchDeviceMessage();
 
       let d;
       d = new Date();
