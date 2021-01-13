@@ -16,7 +16,7 @@
       </el-col>
       <el-col :span="22">
         <el-row>
-          <el-col :span="24">
+          <el-col :span="17">
             <select-date
               v-bind:devices="devices"
               v-on:parsed-data-fetched="setCyclicData"
@@ -25,7 +25,11 @@
               v-on:from-date-changed="fromDateChanged"
               v-on:to-date-changed="toDateChanged"
               v-on:selected-device-changed="selectedDeviceChanged"
+              v-on:device-message-fetched="setDeviceMessage"
             ></select-date>
+          </el-col>
+          <el-col :span="7">
+            <span class="device-message">{{deviceMessage}}<span>
           </el-col>
         </el-row>
         <el-row>
@@ -182,6 +186,9 @@ export default {
           this.deviceItems.push(deviceItem);
         }
       });
+    },
+    setDeviceMessage(data) {
+      this.deviceMessage = data;
     },
     createDefaultDeviceItems() {
       const items = [];

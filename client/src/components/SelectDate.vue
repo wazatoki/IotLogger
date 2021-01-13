@@ -54,6 +54,7 @@ export default {
       return d;
     },
     getData() {
+      
       if (this.parsedDataIntervalID) {
         clearInterval(this.parsedDataIntervalID);
       }
@@ -63,9 +64,15 @@ export default {
       if (this.currentStateIntervalID) {
         clearInterval(this.currentStateIntervalID);
       }
+      if (this.fetchDeviceMessageID) {
+        clearInterval(this.fetchDeviceMessageID);
+      }
+
       this.fetchParcedData();
       this.fetchAsynchronousData();
       this.fetchCurrentState();
+      fetchDeviceMessage();
+
       let d;
       d = new Date();
       const self = this;
@@ -84,11 +91,15 @@ export default {
         this.currentStateIntervalID = setInterval(function() {
           self.fetchCurrentState();
         }, 5000);
+        this.fetchDeviceMessageID = setInterval(function() {
+          self.fetchDeviceMessage();
+        }, 5000);
       } else {
         // データの再取得の停止。
         clearInterval(this.parsedDataIntervalID);
         clearInterval(this.alertLogIntervalID);
         clearInterval(this.currentStateIntervalID);
+        clearInterval(this.fetchDeviceMessageID);
       }
     },
     fetchParcedData() {
@@ -126,6 +137,17 @@ export default {
         })
         .then(res => {
           this.$emit("current-state-fetched", res.data);
+        });
+    },
+    fetchDeviceMessage() {
+      axios
+        .get("api/find_device_message", {
+          params: {
+            selectedDevice: this.selectedDevice
+          }
+        })
+        .then(res => {
+          this.$emit("device-message-fetched", res.data);
         });
     }
   }
