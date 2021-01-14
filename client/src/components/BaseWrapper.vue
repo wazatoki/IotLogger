@@ -173,6 +173,7 @@ export default {
       this.currentState = data;
     },
     setDeviceItems(data) {
+      this.deviceMessage = '';
       this.deviceItems = [];
       data.forEach(item => {
         const deviceItem = new DeviceItem(
