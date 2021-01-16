@@ -1,8 +1,10 @@
 from flask import request, jsonify
+import datetime
 
 from infrastructure import flaskSetup
 from repositories import device
 from util import util
+
 
 app = flaskSetup.app
 
@@ -23,7 +25,7 @@ def find_all():
 @app.route(flaskSetup.url_prefix + 'device/message', methods=['POST'])
 def device_message():
     data = request.json
-    device.update_message(data['deviceID'], data['message'])
+    device.update_message(data['deviceID'], '{0:%Y/%m/%d %H:%M:%S} '.format(datetime.datetime.now()) + data['message'])
     return jsonify({'result': 'ok'})
 
 @app.route(flaskSetup.url_prefix + 'device/save', methods=['POST'])
