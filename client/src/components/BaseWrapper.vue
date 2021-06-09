@@ -29,7 +29,7 @@
             ></select-date>
           </el-col>
           <el-col :span="7">
-            <span class="device-message">{{deviceMessage}}<span>
+            <span class="device-message">{{deviceMessage}}</span>
           </el-col>
         </el-row>
         <el-row>

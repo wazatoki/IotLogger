@@ -14,6 +14,7 @@
               <p>{{ data.deviceItem.name }}</p>
               <p>
                 <span class="current-state">{{ currentState['item'+index] }}</span>
+                <br/>
                 <span>{{ data.deviceItem.unit }}</span>
               </p>
             </el-col>
@@ -173,6 +174,6 @@ div.csv-download-button {
 }
 
 span.current-state {
-  font-size: x-large;
+  font-size: xx-large;
 }
 </style>
