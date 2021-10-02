@@ -1,7 +1,7 @@
 from datetime import datetime
 import typing as tp
 
-from sqlalchemy import and_
+from sqlalchemy import and_, asc
 
 from infrastructure.flaskSetup import db
 from util import util
@@ -108,7 +108,10 @@ def find_all():
 
 def find_by_event_date(f, t, device_id):
     objects = []
-    items = ParcedLog.query.filter(and_(ParcedLog.event_date >= f, ParcedLog.event_date <= t, ParcedLog.device_id == device_id )).all()
+    items = ParcedLog.query\
+        .filter(and_(ParcedLog.event_date >= f, ParcedLog.event_date <= t, ParcedLog.device_id == device_id ))\
+        .order_by(asc(ParcedLog.event_date))\
+        .all()
 
     for item in items:
         o = map_to_object(item)
@@ -117,4 +120,5 @@ def find_by_event_date(f, t, device_id):
     return objects
 
 def delete_by_event_date(f, t, device_id):
-    ParcedLog.query.filter(and_(ParcedLog.event_date >= f, ParcedLog.event_date <= t, ParcedLog.device_id == device_id )).delete()
+    ParcedLog.query\
+        .filter(and_(ParcedLog.event_date >= f, ParcedLog.event_date <= t, ParcedLog.device_id == device_id )).delete()
