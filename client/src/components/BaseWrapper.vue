@@ -4,6 +4,12 @@
       <el-col :span="2">
         <chart-select v-bind:deviceItems="deviceItems"></chart-select>
         <div class="clear"></div>
+        <div class="cyclic-current-state-mode-swich">
+          <el-switch
+            v-model="isCyclicCurrentStateMode"
+            active-text="現在値表示モード">
+          </el-switch>
+        </div>
         <div class="master-maintenance-button">
           <span v-on:click="deviceMasterVisible = true">device マスター</span>
         </div>
@@ -34,7 +40,11 @@
         </el-row>
         <el-row>
           <el-col :span="17">
-            <cyclic-logs
+            <cyclic-current-state-mode v-if="isCyclicCurrentStateMode"
+              v-bind:currentState="currentState"
+              v-bind:deviceItems="deviceItems">
+            </cyclic-current-state-mode>
+            <cyclic-logs v-else
               v-bind:device="selectedDevice"
               v-bind:fromDate="fromDate"
               v-bind:toDate="toDate"
@@ -76,6 +86,7 @@ import axios from "axios";
 import SelectDate from "./SelectDate";
 import AlertLogs from "./AlertLogs";
 import CyclicLogs from "./CyclicLogs";
+import CyclicCurrentStateMode from "./CyclicCurrentStateMode";
 import ChartSelect from "./ChartSelect";
 import DeviceMaster from "./DeviceMaster";
 import ItemMaster from "./ItemMaster";
@@ -89,6 +100,7 @@ export default {
     SelectDate,
     AlertLogs,
     CyclicLogs,
+    CyclicCurrentStateMode,
     ChartSelect,
     DeviceMaster,
     ItemMaster,
@@ -109,7 +121,8 @@ export default {
       devices: [],
       deviceMasterVisible: false,
       itemMasterVisible: false,
-      csvDownloadVisible: false
+      csvDownloadVisible: false,
+      isCyclicCurrentStateMode: false
     };
   },
   methods: {
@@ -221,7 +234,8 @@ div.clear {
 }
 
 div.master-maintenance-button,
-div.csv-download-button {
+div.csv-download-button,
+div.cyclic-current-state-mode-swich {
   margin-top: 3em;
 }
 </style>
