@@ -14,7 +14,7 @@
               <el-col :span="8">
                 <p>{{ deviceItem.name }}</p>
                 <p>
-                  <span class="current-state">{{ currentState['item'+index] }}</span>
+                  <span class="current-state">3000{{ currentState['item'+index] }}</span>
                   <br/>
                   <span>{{ deviceItem.unit }}</span>
                 </p>
@@ -84,7 +84,7 @@ export default {
 <style scoped>
 
 span.current-state {
-  font-size: xx-large;
+  font-size: 4rem;
 }
 
 </style>
