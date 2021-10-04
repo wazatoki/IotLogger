@@ -41,7 +41,7 @@ def fetch_items(f, t, device_id):
         pd.item9_max = items[i].item9_max
         pd.item9_min = items[i].item9_min
         j = 1
-        while j < incremental or (i + j) < items_count:
+        while j < incremental and (i + j) < items_count:
 
             if pd.item0_max < items[i+j].item0_max:
                  pd.item0_max = items[i+j].item0_max

@@ -53,7 +53,7 @@ def cyclic_csv_filename():
 @app.route(flaskSetup.url_prefix + 'find_cyclic_current_state', methods=['GET'])
 def find_cyclic_current_state():
     t = datetime.datetime.now(timezone('UTC'))
-    f = t - datetime.timedelta(minutes = 5)
+    f = t - datetime.timedelta(minutes = 60)
     d = util.get_requested_selected_device()
 
     item = cyclic_log.find_current_state(f, t, d)
